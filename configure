@@ -1,0 +1,269 @@
+#!/bin/bash
+
+############################################
+#                                          #
+#   console game 2048                      #
+#   training project on C using NCURSES    #
+#                                          #
+#   hand-made MAKEFILE generation script   #
+#                                          #
+############################################
+
+# CONSTANTS AND GLOBAL VARIABLES
+
+target_debug_version=1
+target_release_version=2
+target_write_info=3
+target_write_help=4
+
+project_name='C 2048'
+debug_compiler_flags='-g -Wall -DDEBUG'
+release_compiler_flags='-Wall -O3'
+library_list='-lncurses'
+
+source_files_list=( "ncurs_etc" "c2048" "title_scr" )
+
+# FUNCTIONS
+
+write_script_title()
+{
+  echo "[-----------------------------------]"
+  echo "[            C  2 0 4 8             ]"
+  echo "[    MAKEFILE configuring script    ]"
+  echo "[-----------------------------------]"
+}
+
+interactive_mode_prompt()
+{
+  echo "configuring script interactive mode"
+  echo "------------------------------------"
+  echo "please select an action:"
+  echo
+  echo "1 - Makefile for DEBUG version"
+  echo "2 - Makefile for RELEASE version"
+  echo "3 - Project INFO"
+  echo "ANY KEY - exit"
+  echo
+  echo "------------------------------------"
+  read -s -n 1 $1
+}
+
+write_help_info()
+{
+  echo "configuring script HELP screen"
+  echo "COMMAND PROMPT keys:"
+  echo "-------------------------------------------"
+  echo "without parameters:"
+  echo "    generating Makefile for RELEASE version"
+  echo "--debug :"
+  echo "    generating MAKEFILE for DEBUG version"
+  echo
+  echo "--help :"
+  echo "    write this screen"
+  echo
+  echo "--dialog:"
+  echo "    dialog mode"
+  echo "-------------------------------------------"
+}
+
+write_project_info()
+{
+  echo "+-----------------------------------+"
+  echo "|                                   |"
+  echo "|            C  2 0 4 8             |"
+  echo "|                                   |"
+  echo "|  console clone of puzzle game     |"
+  echo "|  written on C using NCURSES       |"
+  echo "|                                   |"
+  echo "|  (c) Alexey Sorokin, 2020         |"
+  echo "|                                   |"
+  echo "|           Original game creator : |"
+  echo "|           Gabriele Cirulli, 2014  |"
+  echo "|                                   |"
+  echo "+-----------------------------------+"
+}
+
+###################################
+#                                 #
+#  MAKEFILE generating functions  #
+#                                 #
+###################################
+
+# writing DEBUG info into MAKEFILE
+
+write_makefile_title()
+{
+  echo "#--------------------------------#" >> Makefile
+  echo "#                                #" >> Makefile
+  echo "# C 2048 Makefile                #" >> Makefile
+  echo "#                                #" >> Makefile
+  echo "# Makefile automaticly generated #" >> Makefile
+  echo "# with CONFIGURE script          #" >> Makefile
+  echo "#                                #" >> Makefile
+  if [ $1 -eq $target_debug_version ]
+  then
+    echo "# DEBUG version                  #" >> Makefile
+  elif [ $1 -eq $target_release_version ]
+  then
+    echo "# RELEASE version                #" >> Makefile
+  fi
+  echo "#                                #" >> Makefile
+  echo "#--------------------------------#" >> Makefile
+}
+
+write_constant_section()
+{
+  echo "CC=gcc" >> Makefile
+  echo "PROGRAM_NAME=c2048" >> Makefile
+  if [ $1 -eq $target_debug_version ]
+  then
+    echo "CFLAGS=$debug_compiler_flags" >> Makefile
+    echo "BIN_DIR=bin/debug/" >> Makefile
+  elif [ $1 -eq $target_release_version ]
+  then
+    echo "CFLAGS=$release_compiler_flags" >> Makefile
+    echo "BIN_DIR=bin/release/" >> Makefile
+  fi
+  echo "LIB_LIST=-lncurses" >> Makefile
+  echo "CLEAN_COMMAND=rm -f" >> Makefile
+  echo "#--------------------------------#" >> Makefile
+}
+
+write_linking_info()
+{
+  echo -n "\$(PROGRAM_NAME):\$(BIN_DIR)main.o" >> Makefile
+  for name in ${source_files_list[@]}
+  do
+    echo -n " \$(BIN_DIR)$name.o" >> Makefile
+  done
+  echo >> Makefile
+  echo -e -n "\t\$(CC) \$(CFLAGS) -o \$(BIN_DIR)\$(PROGRAM_NAME) " >> Makefile
+  echo "\$^ \$(LIB_LIST)" >> Makefile
+  echo >> Makefile
+}
+
+write_compile_main_info()
+{
+  echo "\$(BIN_DIR)main.o:src/main.c" >> Makefile
+  echo -n -e "\t\$(CC) -c \$(CFLAGS)" >> Makefile
+  echo -n " -o \$(BIN_DIR)main.o src/main.c" >> Makefile
+  echo " \$(LIB_LIST)" >> Makefile
+  echo >> Makefile
+}
+
+write_compile_unit_info()
+{
+  echo "\$(BIN_DIR)$1.o:src/$1.c src/$1.h" >> Makefile
+  echo -n -e "\t\$(CC) -c \$(CFLAGS) -o \$(BIN_DIR)$1.o \$<" >> Makefile
+  echo " \$(LIB_LIST)" >> Makefile
+  echo >> Makefile
+}
+
+write_clean_info()
+{
+  echo "clean:" >> Makefile
+  echo -e "\t\$(CLEAN_COMMAND) \$(BIN_DIR)*.o\
+ \$(BIN_DIR)\$(PROGRAM_NAME) 2>/dev/null" >> Makefile
+  echo -e "\t\$(CLEAN_COMMAND) src/*.o src/*~\
+ src/\$(PROGRAM_NAME) src/main.o 2>/dev/null" >> Makefile
+  echo -e "\t\$(CLEAN_COMMAND) ./*~" >> Makefile
+}
+
+# generating Makefile
+# $1 - compiler keys
+
+generate_debug_version_makefile()
+{
+  rm Makefile 2>/dev/null
+  touch Makefile
+  write_makefile_title $target_debug_version
+  write_constant_section $target_debug_version
+  write_linking_info
+  write_compile_main_info
+  for name in ${source_files_list[@]}
+  do
+    write_compile_unit_info $name
+  done
+  write_clean_info
+  echo " READY"
+}
+
+generate_release_version_makefile()
+{
+  rm Makefile 2>/dev/null
+  touch Makefile
+  write_makefile_title $target_release_version
+  write_constant_section $target_release_version
+  write_linking_info
+  write_compile_main_info
+  for name in ${source_files_list[@]}
+  do
+    write_compile_unit_info $name
+  done
+  write_clean_info
+  echo " READY"
+}
+
+#########################
+#                       #
+#      MAIN SCRIPT      #
+#                       #
+#########################
+
+write_script_title
+
+# parsing command-line parameters
+
+case $1 in
+
+  "")
+    action=$target_release_version
+  ;;
+
+  --h | --he | --hel | --help)
+    action=$target_write_help
+  ;;
+
+  --d | --de | --deb | --debu | --debug)
+    action=$target_debug_version
+  ;;
+
+  --di | --dia | --dial | --dialo | --dialog)
+    interactive_mode_prompt select_result
+    action=$select_result
+  ;;
+
+  *)
+    echo "invalid command-line parameter !"
+    echo "type \"configure --help\" for HELP screen"
+    exit 1
+  ;;
+
+esac
+case $action in
+
+  $target_debug_version)
+    echo -n "MAKEFILE for debug version..."
+    generate_debug_version_makefile
+  ;;
+
+  $target_release_version)
+    echo -n "MAKEFILE for release version..."
+    generate_release_version_makefile
+  ;;
+
+  $target_write_help)
+    write_help_info
+    exit 0
+  ;;
+
+  $target_write_info)
+    write_project_info
+    exit 0
+  ;;
+
+  *)
+    echo "Exit from script..."
+  ;;
+
+esac

@@ -1,0 +1,10 @@
+#c2048 GIT ignoring file
+
+Makefile
+
+/bin
+
+/src/*~
+/src/*.o
+/src/a.out
+/src/c2048
