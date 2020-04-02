@@ -8,9 +8,10 @@ base game data types and functions
 
 */
 
-#include <curses.h>
+#include <ncurses.h>
 #include <unistd.h>
 
+#include "ncurs_etc.h"
 #include "c2048.h"
 
 program_state game_play()

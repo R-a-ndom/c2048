@@ -8,11 +8,11 @@ title screen unit
 
 */
 
-#include <curses.h>
+#include <ncurses.h>
 #include <unistd.h>
 
-#include "c2048.h"
 #include "ncurs_etc.h"
+#include "c2048.h"
 #include "title_scr.h"
 
 scr_point get_title_win_start()
@@ -25,12 +25,18 @@ scr_point get_title_win_start()
   return tmp_pos;
 }
 
-
+#ifdef DEBUG
 void debug_point_print(scr_point title_start)
 {
-  mvprintw(0, 0, "Title start: %d : %d",
+  scr_point screen_size;
+  getmaxyx(stdscr, screen_size.row, screen_size.col);
+  move(screen_size.row - 1, 1);
+  printw("| Size : rows %d cols %d",
+           screen_size.row, screen_size.col);
+  printw(" | Title : row %d col %d |",
            title_start.row, title_start.col);
 }
+#endif
 
 void draw_title_screen(WINDOW* win_game_title,scr_point title_pos)
 {
@@ -48,7 +54,9 @@ program_state game_title_screen()
   program_state tmp_state = state_continue;
 
   title_pos = get_title_win_start();
+#ifdef DEBUG
   debug_point_print(title_pos);
+#endif
   win_game_title = newwin(title_win_height, title_win_width,
                           title_pos.row,    title_pos.col);
 
@@ -62,7 +70,9 @@ program_state game_title_screen()
     {
       clear();
       title_pos = get_title_win_start();
+#ifdef DEBUG
       debug_point_print(title_pos);
+#endif
       mvwin(win_game_title, title_pos.row, title_pos.col);
       wrefresh(stdscr);
       wrefresh(win_game_title);

@@ -6,7 +6,7 @@
 
 
 #include <unistd.h>
-#include <curses.h>
+#include <ncurses.h>
 
 #include "ncurs_etc.h"
 

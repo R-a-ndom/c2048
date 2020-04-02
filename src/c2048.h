@@ -23,6 +23,23 @@ typedef enum program_state {
   state_continue = 10,
 } program_state;
 
+enum {
+  cell_height = 3,
+  cell_width  = 6,
+  win_field_height = 20,
+  win_field_width  = 29,
+  win_game_menu_height =  8,
+  win_game_menu_width  = 40,
+  win_game_dialog_height = 15,
+  win_game_dialog_width  = 35,
+};
+
+typedef struct game_screen_coords {
+  scr_point left_top_field;
+  scr_point left_top_game_menu;
+  scr_point left_top_dialog;
+} game_screen_coords;
+
 program_state game_play();
 
 #endif
