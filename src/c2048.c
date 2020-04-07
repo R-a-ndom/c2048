@@ -16,7 +16,7 @@ base game data types and functions
 
 program_state game_play()
 {
-  erase();
+  clear();
   printw("c2048 game_play function");
   refresh();
   sleep(5);

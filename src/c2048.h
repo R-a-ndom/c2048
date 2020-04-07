@@ -16,6 +16,11 @@ enum {
   local_enter_key = '\n',  // in WINDOWS / DOS    enter key = 13
 };                         // in UNIX    / Linux  enter key = 10
 
+#ifdef DEBUG
+enum {
+  debug_mini_time = 500,
+};
+#endif
 
 typedef enum program_state {
   state_exit     =  0,
@@ -24,8 +29,8 @@ typedef enum program_state {
 } program_state;
 
 enum {
-  cell_height = 3,
-  cell_width  = 6,
+  cell_hsize = 6,
+  cell_vsize = 3,
   win_field_height = 20,
   win_field_width  = 29,
   win_game_menu_height =  8,

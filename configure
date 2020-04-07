@@ -2,10 +2,13 @@
 
 ############################################
 #                                          #
-#   console game 2048                      #
+#               C  2 0 4 8                 #
+#                                          #
 #   training project on C using NCURSES    #
 #                                          #
 #   hand-made MAKEFILE generation script   #
+#                                          #
+#          (c) Alexey Sorokin, 2019-2020   #
 #                                          #
 ############################################
 
@@ -21,8 +24,7 @@ debug_compiler_flags='-g -Wall -DDEBUG'
 release_compiler_flags='-Wall -O3'
 library_list='-lncurses'
 
-source_files_list=( "ncurs_etc"
-                    "c2048" "title_scr" )
+source_files_list=( "ncurs_etc" "c2048" "all_draws" "title_scr" )
 
 # FUNCTIONS
 

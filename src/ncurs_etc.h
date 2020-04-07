@@ -3,6 +3,7 @@
  NCURS_ETC.H - functions for NCURSES
 
 */
+#define F_CKING_CODE
 
 #ifndef NCURS_ETC_H
 #define NCURS_ETC_H
@@ -24,10 +25,17 @@ typedef struct frame_char_set {
 
 // color structure for using in NCURSES color functions
 
-typedef struct symbol_color {
-  short fg_color;
-  short bg_color;
-} symbol_color;
+enum {
+  bold_off, // A_BOLD attribute on
+  bold_on,  // A_BOLD attribute off
+};
+
+typedef struct color_pair_info {
+  int number;             // pair number for NCURSES initialization
+  int fgc;                // foreground color
+  int bgc;                // background color
+  int bold_switch;        // bold_on / bold_off
+} color_pair_info;
 
 // *** *** ***
 
@@ -45,19 +53,31 @@ scr_point get_wmiddle(WINDOW *win_ptr);
 /* drawing frame on *win_ptr window */
 
 void wdraw_frame (WINDOW *win_ptr,
-                  int h_size,int v_size,
+                  int h_size, int v_size,
                   scr_point start_pt,
                   frame_char_set set);
 
 /* drawing an array of strings ,last string must be NULL pointer */
 
-void wadd_string_arr(WINDOW *win_ptr,scr_point start_p, const char **arr);
+void wadd_string_arr(WINDOW *win_ptr, scr_point start_p, const char **arr);
 
 /* clearing rectangle om *win_ptr window */
 
 void wclear_rect(WINDOW *win_ptr,
                  scr_point start_point,
                  int v_size,int h_size);
+
+#ifndef F_CKING_CODE
+
+/*
+ *  turning on the color pair with or without A_BOLD attribute
+ *  COLOR_BASE[] is array of COLOR_PAIR_INFO
+ */
+
+void turn_on_color_pair(int pair_num,
+                        const color_pair_info color_base[],
+                        int color_quantity);
+#endif
 
 /* pseudo-functions */
 

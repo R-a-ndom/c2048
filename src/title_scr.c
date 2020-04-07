@@ -13,7 +13,24 @@ title screen unit
 
 #include "ncurs_etc.h"
 #include "c2048.h"
+#include "all_draws.h"
 #include "title_scr.h"
+
+static const char *title_of_game[] = {
+" ><><><><   ><><><><       ><><   ><><><>< ",
+"><      >< ><      ><     >< ><  ><      ><",
+"       ><  ><      ><    ><  ><  ><      ><",
+"     ><    ><      ><   ><   ><   ><><><>< ",
+"   ><      ><      ><  ><    ><  ><      ><",
+" ><        ><      >< ><><><><>< ><      ><",
+"><         ><      ><        ><  ><      ><",
+"><><><><><  ><><><><         ><   ><><><>< ",
+NULL };
+
+static const scr_point title_start = {2 , 4};
+static const scr_point msg_start   = {12, 9};
+static const char title_msg[] = "< Press any key to begin game... >";
+
 
 scr_point get_title_win_start()
 {
@@ -25,25 +42,21 @@ scr_point get_title_win_start()
   return tmp_pos;
 }
 
-#ifdef DEBUG
-void debug_point_print(scr_point title_start)
-{
-  scr_point screen_size;
-  getmaxyx(stdscr, screen_size.row, screen_size.col);
-  move(screen_size.row - 1, 1);
-  printw("| Size : rows %d cols %d",
-           screen_size.row, screen_size.col);
-  printw(" | Title : row %d col %d |",
-           title_start.row, title_start.col);
-}
-#endif
 
-void draw_title_screen(WINDOW* win_game_title,scr_point title_pos)
+void draw_title_screen(WINDOW* win_game_title, scr_point title_pos)
 {
+  wattron(win_game_title, COLOR_PAIR(col_title_frame));
   wdraw_frame(win_game_title,
               title_win_height, title_win_width,
               zero_point, show_frame);
-  mvwprintw(win_game_title,1,1,"%s","C-2048 game");
+  wattron(win_game_title, COLOR_PAIR(col_title_picture));
+  wadd_string_arr(win_game_title,
+                  title_start,
+                  title_of_game);
+  wattron(win_game_title, COLOR_PAIR(col_title_msg));
+  mvwprintw(win_game_title,
+            msg_start.row, msg_start.col,
+            "%s",title_msg);
 }
 
 program_state game_title_screen()
@@ -55,7 +68,7 @@ program_state game_title_screen()
 
   title_pos = get_title_win_start();
 #ifdef DEBUG
-  debug_point_print(title_pos);
+  debug_title_scr_print(title_pos);
 #endif
   win_game_title = newwin(title_win_height, title_win_width,
                           title_pos.row,    title_pos.col);
@@ -71,7 +84,7 @@ program_state game_title_screen()
       clear();
       title_pos = get_title_win_start();
 #ifdef DEBUG
-      debug_point_print(title_pos);
+      debug_title_scr_print(title_pos);
 #endif
       mvwin(win_game_title, title_pos.row, title_pos.col);
       wrefresh(stdscr);
