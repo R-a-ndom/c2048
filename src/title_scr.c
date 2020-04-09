@@ -12,6 +12,7 @@ title screen unit
 #include <unistd.h>
 
 #include "ncurs_etc.h"
+#include "c2048_base.h"
 #include "c2048.h"
 #include "all_draws.h"
 #include "title_scr.h"
@@ -32,13 +33,13 @@ static const scr_point msg_start   = {12, 9};
 static const char title_msg[] = "< Press any key to begin game... >";
 
 
-scr_point get_title_win_start()
+scr_point get_left_top_title_win()
 {
   scr_point tmp_pos;
 
   tmp_pos = get_middle();
-  tmp_pos.row -= ( title_win_height / 2 );
-  tmp_pos.col -= ( title_win_width  / 2 );
+  tmp_pos.row -= ( win_title_height / 2 );
+  tmp_pos.col -= ( win_title_width  / 2 );
   return tmp_pos;
 }
 
@@ -47,7 +48,7 @@ void draw_title_screen(WINDOW* win_game_title, scr_point title_pos)
 {
   wattron(win_game_title, COLOR_PAIR(col_title_frame));
   wdraw_frame(win_game_title,
-              title_win_height, title_win_width,
+              win_title_height, win_title_width,
               zero_point, show_frame);
   wattron(win_game_title, COLOR_PAIR(col_title_picture));
   wadd_string_arr(win_game_title,
@@ -66,11 +67,11 @@ program_state game_title_screen()
   chtype sym;
   program_state tmp_state = state_continue;
 
-  title_pos = get_title_win_start();
+  title_pos = get_left_top_title_win();
 #ifdef DEBUG
-  debug_title_scr_print(title_pos);
+  debug_print_title_scr(title_pos);
 #endif
-  win_game_title = newwin(title_win_height, title_win_width,
+  win_game_title = newwin(win_title_height, win_title_width,
                           title_pos.row,    title_pos.col);
 
   draw_title_screen(win_game_title, title_pos);
@@ -82,9 +83,9 @@ program_state game_title_screen()
     if ( sym == KEY_RESIZE )
     {
       clear();
-      title_pos = get_title_win_start();
+      title_pos = get_left_top_title_win();
 #ifdef DEBUG
-      debug_title_scr_print(title_pos);
+      debug_print_title_scr(title_pos);
 #endif
       mvwin(win_game_title, title_pos.row, title_pos.col);
       wrefresh(stdscr);

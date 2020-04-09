@@ -13,6 +13,7 @@ main file
 #include <unistd.h>
 
 #include "ncurs_etc.h"
+#include "c2048_base.h"
 #include "c2048.h"
 #include "all_draws.h"
 #include "title_scr.h"
@@ -34,12 +35,6 @@ int main()
     fprintf(stderr, "Colors support required.\n");
     exit(2);
   }
-#ifdef DEBUG
-  init_pair(1, COLOR_RED, COLOR_BLACK);
-  attrset(COLOR_PAIR(1));
-  printw("C 2 0 4 8");
-  napms(debug_mini_time);
-#endif
   init_all_colors();
 
   game_state = game_title_screen();

@@ -12,8 +12,8 @@ title screen unit
 #define TITLE_SCR_H
 
 enum {
-  title_win_height = 15,
-  title_win_width  = 51,
+  win_title_height = 15,
+  win_title_width  = 51,
 };
 
 program_state game_title_screen();
