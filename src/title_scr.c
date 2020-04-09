@@ -50,7 +50,7 @@ void draw_title_screen(WINDOW* win_game_title, scr_point title_pos)
   wdraw_frame(win_game_title,
               win_title_height, win_title_width,
               zero_point, show_frame);
-  wattron(win_game_title, COLOR_PAIR(col_title_picture));
+  wattron(win_game_title, COLOR_PAIR(col_title_picture) | A_BOLD );
   wadd_string_arr(win_game_title,
                   title_start,
                   title_of_game);
@@ -93,7 +93,7 @@ program_state game_title_screen()
     }
     else if ( sym == local_esc_key )
     {
-      tmp_state = state_exit;
+      tmp_state = state_quit;
     }
     else
     {

@@ -22,20 +22,7 @@ int main()
 {
   program_state game_state;
 
-  initscr();
-  if ( !has_colors() )
-  {
-    fprintf(stderr, "C2048 -> Terminal cannot do colors!\n");
-    fprintf(stderr, "Colors support required.\n");
-    exit(1);
-  }
-  if ( start_color() != OK )
-  {
-    fprintf(stderr, "C2048 -> Unable to start colors!\n");
-    fprintf(stderr, "Colors support required.\n");
-    exit(2);
-  }
-  init_all_colors();
+  game_init();
 
   game_state = game_title_screen();
 

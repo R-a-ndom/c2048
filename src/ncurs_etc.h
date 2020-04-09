@@ -23,6 +23,8 @@ typedef struct frame_char_set {
   char v_line;
 } frame_char_set;
 
+#ifdef F_CKING_CODE
+
 // color structure for using in NCURSES color functions
 
 enum {
@@ -37,9 +39,12 @@ typedef struct color_pair_info {
   int bold_switch;        // bold_on / bold_off
 } color_pair_info;
 
+#endif
+
 // *** *** ***
 
 extern const scr_point zero_point;
+
 extern const frame_char_set show_frame;
 extern const frame_char_set hide_frame;
 extern const frame_char_set star_frame;

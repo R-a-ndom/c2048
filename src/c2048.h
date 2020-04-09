@@ -13,6 +13,8 @@ base game data types and functions
 
 /* functions */
 
+void game_init();
+
 game_scr_coords get_game_scr_coords();
 
 void game_play();

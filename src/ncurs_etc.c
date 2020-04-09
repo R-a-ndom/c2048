@@ -15,9 +15,9 @@
 
 const scr_point zero_point = {0,0};
 
-const frame_char_set show_frame = { '+' , '-' , '|' };
-const frame_char_set hide_frame = { ' ' , ' ' , ' ' };
-const frame_char_set star_frame = { '*' , '*' , '*' };
+const frame_char_set show_frame = { '+', '-', '|' };
+const frame_char_set hide_frame = { ' ', ' ', ' ' };
+const frame_char_set star_frame = { '*', '*', '*' };
 
 
 scr_point get_wmiddle(WINDOW *win_ptr)
@@ -116,8 +116,10 @@ void wclear_rect(WINDOW *win_ptr,
       mvwaddch(win_ptr,i,j,' ');
   }
 }
-#ifndef F_CKING_CODE
+
 /* *** *** *** */
+
+#ifndef F_CKING_CODE
 
 void init_color_pair(color_pair_info pair)
 {

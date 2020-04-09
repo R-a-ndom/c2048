@@ -9,12 +9,37 @@ base game data types and functions
 */
 
 #include <ncurses.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 #include "ncurs_etc.h"
 #include "c2048_base.h"
 #include "all_draws.h"
 #include "c2048.h"
+
+/* --- +++ --- */
+
+void game_init()
+{
+  initscr();
+  crmode();
+  noecho();
+  if ( !has_colors() )
+  {
+    fprintf(stderr, "C2048 -> Terminal cannot do colors!\n");
+    fprintf(stderr, "Colors support required.\n");
+    exit(1);
+  }
+  if ( start_color() != OK )
+  {
+    fprintf(stderr, "C2048 -> Unable to start colors!\n");
+    fprintf(stderr, "Colors support required.\n");
+    exit(2);
+  }
+  init_all_colors();
+}
+
+/* --- +++ --- */
 
 game_scr_coords get_game_scr_coords()
 {
@@ -37,10 +62,14 @@ game_scr_coords get_game_scr_coords()
   return tmp;
 }
 
+/* --- +++ --- */
+
 void game_play()
 {
   game_scr_coords scr_coords;
-  WINDOW* win_game_field;
+  WINDOW* win_field;
+  chtype sym;
+  program_state state = state_continue;
 
   scr_coords = get_game_scr_coords();
 
@@ -48,14 +77,20 @@ void game_play()
 #ifdef DEBUG
   debug_print_game_scr(&scr_coords);
 #endif
-  win_game_field = newwin(win_field_height, win_field_width,
+  win_field = newwin(win_field_height, win_field_width,
                           scr_coords.left_top_field.row,
                           scr_coords.left_top_field.col);
-  wdraw_frame(win_game_field,
-              win_field_height, win_field_width,
-              zero_point,
-              show_frame);
-  wrefresh(win_game_field);
-  refresh();
-  sleep(5);
+  draw_field_win_static_elements(win_field);
+  wrefresh(stdscr);
+  wrefresh(win_field);
+  keypad(win_field, TRUE);
+  do {
+    sym = getch();
+
+    if (sym == local_esc_key)
+    {
+      state = state_quit;
+    }
+
+  } while ( state != state_quit );
 }

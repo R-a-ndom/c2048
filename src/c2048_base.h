@@ -20,7 +20,7 @@ enum {
 /* program states */
 
 typedef enum program_state {
-  state_exit     =  0,
+  state_quit     =  0,
   state_begin    =  1,
   state_continue = 10,
 } program_state;
@@ -29,18 +29,22 @@ typedef enum program_state {
 /* color pairs numbers */
 
 enum {
-  other_color_count = 6,
+  other_colors_count = 10,
 };
 
 enum {
-  col_standart = 20,
+  col_standard = 20,
 
   col_title_frame,
   col_title_picture,
   col_title_msg,
 
   col_field_frame,
+  col_field_text,
+  col_field_score_text,
+  col_field_hiscore_text,
 
+  col_field_standard,
   col_debug_text,
   col_debug_data,
 };
@@ -48,11 +52,13 @@ enum {
 /* game elements sizes */
 
 enum {
-  cell_hsize = 6,
-  cell_vsize = 3,
+  side_size = 3,
 
-  win_field_height = 20,
-  win_field_width  = 29,
+  cell_hsize = 3,
+  cell_vsize = 6,
+
+  win_field_height = 22,
+  win_field_width  = 31,
 
   win_game_menu_height =  6,
   win_game_menu_width  = 40,
