@@ -24,7 +24,7 @@ static const scr_point hiscore_start = { 15, 1 };
 
 void init_all_colors()
 {
-  init_pair(col_standard,       COLOR_BLUE,    COLOR_BLACK);
+  init_pair(col_standard, COLOR_BLUE,    COLOR_BLACK);
 
   init_pair(col_title_frame,   COLOR_YELLOW, COLOR_BLACK);
   init_pair(col_title_picture, COLOR_CYAN,   COLOR_MAGENTA);
@@ -115,7 +115,16 @@ void debug_print_game_scr(game_scr_coords* coords)
   printw("|");
 }
 #endif
-/* --- +++ --- *//* --- +++ --- *//* --- +++ --- */
+
+/* --- +++ --- */
+
+void draw_hint_line(game_scr_coords* coords, char line[])
+{
+  mvwprintw(stdscr,coords->screen_size.row, 1, line);
+}
+
+
+/* --- +++ --- *//* --- +++ --- */
 
 void draw_grid(WINDOW* win_field)
 {

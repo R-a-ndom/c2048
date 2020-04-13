@@ -60,8 +60,8 @@ enum {
   win_field_height = 22,
   win_field_width  = 31,
 
-  win_game_menu_height =  6,
-  win_game_menu_width  = 40,
+  win_game_menu_height =  8,
+  win_game_menu_width  = 50,
 
   win_dialog_height = 10,
   win_dialog_width  = 35,

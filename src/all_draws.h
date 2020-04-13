@@ -33,6 +33,8 @@ void debug_print_game_scr(game_scr_coords* coords);
 
 #endif
 
+void draw_hint_line(game_scr_coords* coords, char line[]);
+
 void draw_field_win_static_elements(WINDOW* win_field);
 
 void draw_grid(WINDOW* win_game_field);

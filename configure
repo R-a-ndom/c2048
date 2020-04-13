@@ -24,7 +24,8 @@ debug_compiler_flags='-g -Wall -DDEBUG'
 release_compiler_flags='-Wall -O3'
 library_list='-lncurses'
 
-source_files_list=( "ncurs_etc" "c2048" "all_draws" "title_scr" )
+source_files_list=( "ncurs_etc" "c2048"
+                    "all_draws" "title_scr" "dialogs" )
 
 # FUNCTIONS
 

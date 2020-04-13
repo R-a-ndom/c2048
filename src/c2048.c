@@ -15,6 +15,7 @@ base game data types and functions
 #include "ncurs_etc.h"
 #include "c2048_base.h"
 #include "all_draws.h"
+#include "dialogs.h"
 #include "c2048.h"
 
 /* --- +++ --- */
@@ -68,7 +69,10 @@ void game_play()
 {
   game_scr_coords scr_coords;
   WINDOW* win_field;
+  int current_score, high_score;
   chtype sym;
+
+  current_score = high_score = 0;
   program_state state = state_continue;
 
   scr_coords = get_game_scr_coords();
@@ -89,7 +93,7 @@ void game_play()
 
     if (sym == local_esc_key)
     {
-      state = state_quit;
+      state = game_menu(win_field, &scr_coords);
     }
 
   } while ( state != state_quit );
