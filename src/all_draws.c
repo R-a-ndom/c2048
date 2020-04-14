@@ -118,9 +118,15 @@ void debug_print_game_scr(game_scr_coords* coords)
 
 /* --- +++ --- */
 
-void draw_hint_line(game_scr_coords* coords, char line[])
+void draw_hint_line(game_scr_coords* coords, const char line[])
 {
-  mvwprintw(stdscr,coords->screen_size.row, 1, line);
+  int i;
+  wmove(stdscr, coords->screen_size.row, 1);
+  for(i = 1; i < coords->screen_size.col; i++)
+  {
+    addch(' ');
+  }
+  mvwprintw(stdscr, coords->screen_size.row, 1, line);
 }
 
 

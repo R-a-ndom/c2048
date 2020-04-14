@@ -76,4 +76,9 @@ typedef struct game_scr_coords {
   scr_point left_top_dialog;
 } game_scr_coords;
 
+typedef struct game_score {
+  int current;
+  int high;
+} game_score;
+
 #endif

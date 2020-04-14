@@ -20,6 +20,11 @@ base game data types and functions
 
 /* --- +++ --- */
 
+static const char main_hint_line[] =
+"ARROW KEYS - shift game field | BACKSPACE - cancel last move | ESC - game menu";
+
+/* --- +++ --- */
+
 void game_init()
 {
   initscr();
@@ -48,7 +53,8 @@ game_scr_coords get_game_scr_coords()
   scr_point scr_mid;
 
   getmaxyx(stdscr, tmp.screen_size.row, tmp.screen_size.col);
-
+  tmp.screen_size.row--;
+  tmp.screen_size.col--;
   scr_mid = get_middle();
 
   tmp.left_top_field.row = scr_mid.row - ( win_field_height / 2 );
@@ -63,37 +69,44 @@ game_scr_coords get_game_scr_coords()
   return tmp;
 }
 
+
+void draw_game_screen(WINDOW* win_field, game_scr_coords* coords)
+{
+#ifdef DEBUG
+  debug_print_game_scr(coords);
+#endif
+  draw_hint_line(coords, main_hint_line);
+  draw_field_win_static_elements(win_field);
+  wrefresh(stdscr);
+  wrefresh(win_field);
+}
+
 /* --- +++ --- */
 
 void game_play()
 {
-  game_scr_coords scr_coords;
+  game_scr_coords coords;
   WINDOW* win_field;
-  int current_score, high_score;
+  game_score score;
   chtype sym;
 
-  current_score = high_score = 0;
+  score.current = score.high = 0;
   program_state state = state_continue;
 
-  scr_coords = get_game_scr_coords();
+  coords = get_game_scr_coords();
 
   clear();
-#ifdef DEBUG
-  debug_print_game_scr(&scr_coords);
-#endif
   win_field = newwin(win_field_height, win_field_width,
-                          scr_coords.left_top_field.row,
-                          scr_coords.left_top_field.col);
-  draw_field_win_static_elements(win_field);
-  wrefresh(stdscr);
-  wrefresh(win_field);
+                          coords.left_top_field.row,
+                          coords.left_top_field.col);
+  draw_game_screen(win_field, &coords);
   keypad(win_field, TRUE);
   do {
     sym = getch();
 
     if (sym == local_esc_key)
     {
-      state = game_menu(win_field, &scr_coords);
+      state = game_menu(win_field, &coords);
     }
 
   } while ( state != state_quit );
