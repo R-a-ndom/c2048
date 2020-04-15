@@ -35,10 +35,14 @@ void init_all_colors()
   init_pair(col_field_score_text,   COLOR_CYAN,    COLOR_BLACK);
   init_pair(col_field_hiscore_text, COLOR_MAGENTA, COLOR_BLACK);
 
+  init_pair(col_menu_standard,    COLOR_BLUE,  COLOR_YELLOW);
+  init_pair(col_menu_sel_item,    COLOR_GREEN, COLOR_BLACK);
+  init_pair(col_menu_unsel_item,  COLOR_WHITE, COLOR_BLACK);
 
-  init_pair(col_field_standard, COLOR_CYAN,    COLOR_BLACK);
-  init_pair(col_debug_text,     COLOR_WHITE,   COLOR_BLACK);
-  init_pair(col_debug_data,     COLOR_GREEN,   COLOR_BLACK);
+
+  init_pair(col_field_standard, COLOR_CYAN,  COLOR_BLACK);
+  init_pair(col_debug_text,     COLOR_WHITE, COLOR_BLACK);
+  init_pair(col_debug_data,     COLOR_GREEN, COLOR_BLACK);
 }
 
 /* --- +++ --- */
@@ -128,7 +132,6 @@ void draw_hint_line(game_scr_coords* coords, const char line[])
   }
   mvwprintw(stdscr, coords->screen_size.row, 1, line);
 }
-
 
 /* --- +++ --- *//* --- +++ --- */
 

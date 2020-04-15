@@ -55,6 +55,7 @@ game_scr_coords get_game_scr_coords()
   getmaxyx(stdscr, tmp.screen_size.row, tmp.screen_size.col);
   tmp.screen_size.row--;
   tmp.screen_size.col--;
+
   scr_mid = get_middle();
 
   tmp.left_top_field.row = scr_mid.row - ( win_field_height / 2 );
@@ -69,6 +70,7 @@ game_scr_coords get_game_scr_coords()
   return tmp;
 }
 
+/* --- +++ --- */
 
 void draw_game_screen(WINDOW* win_field, game_scr_coords* coords)
 {
@@ -79,6 +81,24 @@ void draw_game_screen(WINDOW* win_field, game_scr_coords* coords)
   draw_field_win_static_elements(win_field);
   wrefresh(stdscr);
   wrefresh(win_field);
+}
+
+/* --- +++ --- */
+
+void update_game_screen(WINDOW* win_field, game_scr_coords* coords )
+{
+  clear();
+  *coords = get_game_scr_coords();
+#ifdef DEBUG
+  debug_print_game_scr(coords);
+#endif
+  mvwin(win_field,
+        coords->left_top_field.row,
+        coords->left_top_field.col);
+  draw_hint_line(coords, main_hint_line);
+  wrefresh(stdscr);
+  touchwin(win_field);
+  refresh();
 }
 
 /* --- +++ --- */
@@ -104,10 +124,21 @@ void game_play()
   do {
     sym = getch();
 
-    if (sym == local_esc_key)
+    switch (sym)
     {
-      state = game_menu(win_field, &coords);
+      case local_esc_key:
+      {
+        state = game_menu(win_field, &coords);
+      }
+      case KEY_RESIZE:
+      {
+        update_game_screen(win_field, &coords);
+        state = state_continue;
+      }
+      default:
+      {
+        state = state_continue;
+      }
     }
-
   } while ( state != state_quit );
 }

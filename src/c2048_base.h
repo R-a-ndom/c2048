@@ -20,9 +20,11 @@ enum {
 /* program states */
 
 typedef enum program_state {
-  state_quit     =  0,
-  state_begin    =  1,
-  state_continue = 10,
+  state_quit,
+  state_begin,
+  state_restart,
+  state_show_about,
+  state_continue,
 } program_state;
 
 
@@ -43,6 +45,10 @@ enum {
   col_field_text,
   col_field_score_text,
   col_field_hiscore_text,
+
+  col_menu_standard,
+  col_menu_sel_item,
+  col_menu_unsel_item,
 
   col_field_standard,
   col_debug_text,
