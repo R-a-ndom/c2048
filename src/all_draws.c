@@ -16,9 +16,9 @@ screen and windows drawing
 
 static const char score_msg[] = "SCORE          HIGH SCORE";
 
-static const scr_point grid_start    = {  4, 1 };
-static const scr_point score_start   = {  2, 1 };
-static const scr_point hiscore_start = { 15, 1 };
+static const scr_point grid_start    = {  4,  1 };
+static const scr_point score_start   = {  2,  1 };
+static const scr_point hiscore_start = {  2, 16 };
 
 /* --- +++ --- */
 
@@ -30,19 +30,16 @@ void init_all_colors()
   init_pair(col_title_picture, COLOR_CYAN,   COLOR_MAGENTA);
   init_pair(col_title_msg,     COLOR_WHITE,  COLOR_BLACK);
 
-  init_pair(col_field_frame,        COLOR_CYAN,    COLOR_BLACK);
-  init_pair(col_field_text,         COLOR_GREEN,   COLOR_BLACK);
+  init_pair(col_field_standard,     COLOR_WHITE,   COLOR_BLACK);
   init_pair(col_field_score_text,   COLOR_CYAN,    COLOR_BLACK);
   init_pair(col_field_hiscore_text, COLOR_MAGENTA, COLOR_BLACK);
 
-  init_pair(col_menu_standard,    COLOR_BLUE,  COLOR_YELLOW);
-  init_pair(col_menu_sel_item,    COLOR_GREEN, COLOR_BLACK);
-  init_pair(col_menu_unsel_item,  COLOR_WHITE, COLOR_BLACK);
+  init_pair(col_menu_standard,    COLOR_YELLOW, COLOR_BLUE);
+  init_pair(col_menu_text,        COLOR_WHITE,  COLOR_BLACK);
+  init_pair(col_menu_sel_frame,   COLOR_GREEN,  COLOR_BLACK);
 
-
-  init_pair(col_field_standard, COLOR_CYAN,  COLOR_BLACK);
-  init_pair(col_debug_text,     COLOR_WHITE, COLOR_BLACK);
-  init_pair(col_debug_data,     COLOR_GREEN, COLOR_BLACK);
+  init_pair(col_debug_text, COLOR_WHITE, COLOR_BLACK);
+  init_pair(col_debug_data, COLOR_GREEN, COLOR_BLACK);
 }
 
 /* --- +++ --- */
@@ -149,7 +146,18 @@ void draw_grid(WINDOW* win_field)
          mvwaddch(win_field, sym_pos.row, sym_pos.col, '+');
       }
   }
+}
 
+/* --- +++ --- */
+
+void draw_game_score(WINDOW* win_field, game_score score)
+{
+  wattron(win_field, COLOR_PAIR(col_field_score_text));
+  wmove(win_field, score_start.row, score_start.col);
+  wprintw(win_field,"%d",score.current);
+  wattron(win_field, COLOR_PAIR(col_field_hiscore_text));
+  wmove(win_field, hiscore_start.row, hiscore_start.col);
+  wprintw(win_field,"%d",score.high);
 }
 
 /* --- +++ --- */
@@ -157,13 +165,12 @@ void draw_grid(WINDOW* win_field)
 void draw_field_win_static_elements(WINDOW* win_field)
 {
   int i;
+
+  wattron(win_field, COLOR_PAIR(col_field_standard) | A_NORMAL);
   wdraw_frame(win_field,
               win_field_height, win_field_width,
               zero_point,
               show_frame);
-  wattron(win_field, A_BOLD);
-  mvwprintw(win_field, 1, 1, "%s", score_msg);
-  wattroff(win_field, A_BOLD);
   mvwaddch(win_field, 3, 0, '+');
   for(i=1; i < win_field_width - 1; i++)
   {
@@ -171,4 +178,7 @@ void draw_field_win_static_elements(WINDOW* win_field)
   }
   waddch(win_field, '+');
   draw_grid(win_field);
+
+  wattron(win_field, A_BOLD);
+  mvwprintw(win_field, 1, 1, "%s", score_msg);
 }

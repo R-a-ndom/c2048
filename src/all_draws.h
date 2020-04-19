@@ -37,6 +37,8 @@ void draw_hint_line(game_scr_coords* coords, const char line[]);
 
 void draw_field_win_static_elements(WINDOW* win_field);
 
+void draw_game_score(WINDOW* win_field, game_score score);
+
 void draw_grid(WINDOW* win_game_field);
 
 #endif

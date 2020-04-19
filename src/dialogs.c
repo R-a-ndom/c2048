@@ -16,7 +16,7 @@ game menu and dialog windows functions
 #include "all_draws.h"
 #include "dialogs.h"
 
-static const scr_point game_menu_msg   = { 2, 12 };
+static const scr_point game_menu_msg   = { 1, 12 };
 static const scr_point game_menu_start = { 3,  3 };
 
 const menu_item_data game_menu_data[] = {
@@ -47,6 +47,7 @@ void draw_menu_item(WINDOW* win_menu,
 {
   if ( item_state == item_sel )
   {
+    wattrset(win_menu, COLOR_PAIR(col_menu_sel_frame));
     wdraw_frame(win_menu,
                 menu_item_height, menu_item_width,
                 item_start, star_frame );
@@ -55,6 +56,8 @@ void draw_menu_item(WINDOW* win_menu,
                 menu_item_height, menu_item_width,
                 item_start, hide_frame );
   }
+
+  wattrset(win_menu, COLOR_PAIR(col_menu_text));
   wmove(win_menu, item_start.row + 1, item_start.col + 1);
   wprintw(win_menu, "%s", item.item_msg);
 }
@@ -68,7 +71,7 @@ void draw_full_menu(WINDOW* win_menu,
   int current_pos = 0;
   scr_point draw_pos = game_menu_start;
 
-  wattrset(win_menu, COLOR_PAIR(col_menu_unsel_item));
+  wattrset(win_menu, COLOR_PAIR(col_menu_text));
   while(current_pos < select_pos)
   {
      draw_menu_item(win_menu,
@@ -79,7 +82,6 @@ void draw_full_menu(WINDOW* win_menu,
     draw_pos.col += menu_items_gap;
   }
 
-  wattrset(win_menu, COLOR_PAIR(col_menu_sel_item));
   draw_menu_item(win_menu,
                  draw_pos,
                  menu_data[current_pos],
@@ -87,7 +89,7 @@ void draw_full_menu(WINDOW* win_menu,
   current_pos++;
   draw_pos.col += menu_items_gap;
 
-  wattrset(win_menu, COLOR_PAIR(col_menu_unsel_item));
+  wattrset(win_menu, COLOR_PAIR(col_menu_text));
   while(current_pos <= max_game_menu_pos)
   {
      draw_menu_item(win_menu,
@@ -111,6 +113,7 @@ program_state game_menu(WINDOW *win_field,
   win_menu = newwin(win_game_menu_height, win_game_menu_width,
                          coords->left_top_game_menu.row,
                          coords->left_top_game_menu.col);
+  wattrset(win_menu, COLOR_PAIR(col_menu_standard));
   draw_win_menu_static_elements(win_menu);
   draw_full_menu(win_menu, menu_current_pos, game_menu_data);
 #ifdef DEBUG

@@ -41,16 +41,14 @@ enum {
   col_title_picture,
   col_title_msg,
 
-  col_field_frame,
-  col_field_text,
+  col_field_standard,
   col_field_score_text,
   col_field_hiscore_text,
 
   col_menu_standard,
-  col_menu_sel_item,
-  col_menu_unsel_item,
+  col_menu_text,
+  col_menu_sel_frame,
 
-  col_field_standard,
   col_debug_text,
   col_debug_data,
 };
@@ -81,6 +79,8 @@ typedef struct game_scr_coords {
   scr_point left_top_game_menu;
   scr_point left_top_dialog;
 } game_scr_coords;
+
+/* game score structure */
 
 typedef struct game_score {
   int current;

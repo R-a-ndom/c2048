@@ -72,23 +72,26 @@ game_scr_coords get_game_scr_coords()
 
 /* --- +++ --- */
 
-void draw_game_screen(WINDOW* win_field, game_scr_coords* coords)
+void draw_game_screen(WINDOW* win_field,
+                      game_scr_coords* coords,
+                      game_score score)
 {
 #ifdef DEBUG
   debug_print_game_scr(coords);
 #endif
   draw_hint_line(coords, main_hint_line);
   draw_field_win_static_elements(win_field);
+  draw_game_score(win_field, score);
   wrefresh(stdscr);
   wrefresh(win_field);
 }
 
 /* --- +++ --- */
 
-void update_game_screen(WINDOW* win_field, game_scr_coords* coords )
+void update_game_screen(WINDOW* win_field,
+                        game_scr_coords* coords,
+                        game_score score )
 {
-  clear();
-  *coords = get_game_scr_coords();
 #ifdef DEBUG
   debug_print_game_scr(coords);
 #endif
@@ -97,8 +100,7 @@ void update_game_screen(WINDOW* win_field, game_scr_coords* coords )
         coords->left_top_field.col);
   draw_hint_line(coords, main_hint_line);
   wrefresh(stdscr);
-  touchwin(win_field);
-  refresh();
+  wrefresh(win_field);
 }
 
 /* --- +++ --- */
@@ -119,7 +121,7 @@ void game_play()
   win_field = newwin(win_field_height, win_field_width,
                           coords.left_top_field.row,
                           coords.left_top_field.col);
-  draw_game_screen(win_field, &coords);
+  draw_game_screen(win_field, &coords, score);
   keypad(win_field, TRUE);
   do {
     sym = getch();
@@ -129,11 +131,15 @@ void game_play()
       case local_esc_key:
       {
         state = game_menu(win_field, &coords);
+        break;
       }
       case KEY_RESIZE:
       {
-        update_game_screen(win_field, &coords);
+        clear();
+        coords = get_game_scr_coords();
+        update_game_screen(win_field, &coords, score);
         state = state_continue;
+        break;
       }
       default:
       {
