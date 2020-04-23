@@ -119,20 +119,15 @@ void game_play()
 
   clear();
   win_field = newwin(win_field_height, win_field_width,
-                          coords.left_top_field.row,
-                          coords.left_top_field.col);
+                     coords.left_top_field.row,
+                     coords.left_top_field.col);
   draw_game_screen(win_field, &coords, score);
   keypad(win_field, TRUE);
   do {
-    sym = getch();
+    sym = wgetch(win_field);
 
     switch (sym)
     {
-      case local_esc_key:
-      {
-        state = game_menu(win_field, &coords);
-        break;
-      }
       case KEY_RESIZE:
       {
         clear();
@@ -141,10 +136,23 @@ void game_play()
         state = state_continue;
         break;
       }
+
+      case local_esc_key:
+      {
+        state = game_menu(win_field, &coords, game_menu_data);
+        break;
+      }
+
       default:
       {
         state = state_continue;
       }
+    }  /* switch */
+
+    if (state == state_continue_and_redraw)
+    {
+      erase();
+      update_game_screen(win_field, &coords, score);
     }
   } while ( state != state_quit );
 }

@@ -34,7 +34,10 @@ typedef struct menu_item_data {
 } menu_item_data;
 
 
+extern const menu_item_data game_menu_data[];
+
 program_state game_menu(WINDOW *win_field,
-                        game_scr_coords *coords);
+                        game_scr_coords *coords,
+                        const menu_item_data menu_data[]);
 
 #endif

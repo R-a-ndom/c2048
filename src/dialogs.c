@@ -19,12 +19,17 @@ game menu and dialog windows functions
 static const scr_point game_menu_msg   = { 1, 12 };
 static const scr_point game_menu_start = { 3,  3 };
 
+const char win_menu_title[] = "C  2 0 4 8  - game menu ";
+
 const menu_item_data game_menu_data[] = {
   { " NEW GAME ", "Begin a NEW GAME",  state_restart },
   { "   ABOUT  ", "Show ABOUT window", state_show_about },
   { "   EXIT   ", "EXIT to shell",     state_quit }
 };
 
+
+/* --- +++ --- */
+/* --- +++ --- */
 
 void draw_win_menu_static_elements(WINDOW* win_game_menu)
 {
@@ -34,9 +39,8 @@ void draw_win_menu_static_elements(WINDOW* win_game_menu)
 
   mvwprintw(win_game_menu,
             game_menu_msg.row, game_menu_msg.col,
-            "C  2 0 4 8  - game menu ");
+            win_menu_title);
 }
-
 
 /* --- +++ --- */
 
@@ -57,7 +61,7 @@ void draw_menu_item(WINDOW* win_menu,
                 item_start, hide_frame );
   }
 
-  wattrset(win_menu, COLOR_PAIR(col_menu_text));
+  wattrset(win_menu, COLOR_PAIR(col_menu_text) | A_BOLD );
   wmove(win_menu, item_start.row + 1, item_start.col + 1);
   wprintw(win_menu, "%s", item.item_msg);
 }
@@ -104,25 +108,117 @@ void draw_full_menu(WINDOW* win_menu,
 
 /* --- +++ --- */
 
-program_state game_menu(WINDOW *win_field,
-                        game_scr_coords *coords)
+void draw_menu_window(WINDOW* win_menu, game_scr_coords* coords)
 {
-  WINDOW *win_menu;
-  int menu_current_pos = 0;
-
-  win_menu = newwin(win_game_menu_height, win_game_menu_width,
-                         coords->left_top_game_menu.row,
-                         coords->left_top_game_menu.col);
-  wattrset(win_menu, COLOR_PAIR(col_menu_standard));
+  int start_menu_pos = 0;
+  wbkgd(win_menu, COLOR_PAIR(col_menu_standard));
   draw_win_menu_static_elements(win_menu);
-  draw_full_menu(win_menu, menu_current_pos, game_menu_data);
+  draw_full_menu(win_menu, start_menu_pos, game_menu_data);
 #ifdef DEBUG
-  mvwprintw(win_menu, 1, 1, "%d", menu_current_pos);
+  mvwprintw(win_menu, 1, 1, "%d", start_menu_pos);
+#endif
+  wrefresh(win_menu);
+}
+
+/* --- +++ --- */
+
+void update_menu_window(WINDOW* win_menu,
+                        int current_menu_pos)
+{
+  draw_full_menu(win_menu, current_menu_pos, game_menu_data);
+#ifdef DEBUG
+  mvwprintw(win_menu, 1, 1, "%d", current_menu_pos);
+#endif
+  wrefresh(win_menu);
+}
+
+/* --- +++ --- */
+
+void update_menu_screen(WINDOW* win_field,
+                        WINDOW* win_menu,
+                        game_scr_coords* coords)
+{
+  clear();
+  *coords = get_game_scr_coords();
+  mvwin(win_field,
+        coords->left_top_field.row,
+        coords->left_top_field.col);
+  mvwin(win_menu,
+        coords->left_top_game_menu.row,
+        coords->left_top_game_menu.col);
+#ifdef DEBUG
+  debug_print_game_scr(coords);
 #endif
   wrefresh(stdscr);
   wrefresh(win_field);
   wrefresh(win_menu);
-  getch();
+}
+
+/* --- +++ --- */
+
+program_state game_menu(WINDOW *win_field,
+                        game_scr_coords* coords,
+                        const menu_item_data menu_data[] )
+{
+  WINDOW *win_menu;
+  int menu_current_pos = 0;
+  chtype sym;
+  program_state tmp_state = state_continue;
+
+  win_menu = newwin(win_game_menu_height, win_game_menu_width,
+                         coords->left_top_game_menu.row,
+                         coords->left_top_game_menu.col);
+  draw_menu_window(win_menu, coords);
+  draw_hint_line(coords, menu_data[menu_current_pos].hint_line_msg);
+  keypad(win_menu, TRUE);
+  do {
+    sym = wgetch(win_menu);
+
+    switch (sym)
+    {
+      case local_esc_key:
+      {
+        tmp_state = state_continue_and_redraw;
+        break;
+      }
+
+      case KEY_LEFT:  // <<<
+      {
+        if (menu_current_pos > 0)
+        {
+          menu_current_pos--;
+          update_menu_window(win_menu, menu_current_pos);
+          draw_hint_line(coords, menu_data[menu_current_pos].hint_line_msg);
+        }
+        tmp_state = state_continue;
+        break;
+      }
+
+      case KEY_RIGHT: // >>>
+        if (menu_current_pos < max_game_menu_pos)
+        {
+          menu_current_pos++;
+          update_menu_window(win_menu, menu_current_pos);
+          draw_hint_line(coords, menu_data[menu_current_pos].hint_line_msg);
+        }
+        tmp_state = state_continue;
+        break;
+
+      case KEY_RESIZE:
+      {
+        update_menu_screen(win_field, win_menu, coords);
+        tmp_state = state_continue;
+        break;
+      }
+
+      default:
+      {
+        tmp_state = menu_data[menu_current_pos].state;
+        break;
+      }
+    }  /* switch */
+  } while ( tmp_state == state_continue );
+
   delwin(win_menu);
-  return state_quit;
+  return tmp_state;
 }

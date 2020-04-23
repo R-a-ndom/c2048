@@ -34,9 +34,9 @@ void init_all_colors()
   init_pair(col_field_score_text,   COLOR_CYAN,    COLOR_BLACK);
   init_pair(col_field_hiscore_text, COLOR_MAGENTA, COLOR_BLACK);
 
-  init_pair(col_menu_standard,    COLOR_YELLOW, COLOR_BLUE);
-  init_pair(col_menu_text,        COLOR_WHITE,  COLOR_BLACK);
-  init_pair(col_menu_sel_frame,   COLOR_GREEN,  COLOR_BLACK);
+  init_pair(col_menu_standard,    COLOR_CYAN, COLOR_BLUE);
+  init_pair(col_menu_text,        COLOR_MAGENTA,  COLOR_BLUE);
+  init_pair(col_menu_sel_frame,   COLOR_YELLOW,  COLOR_BLUE);
 
   init_pair(col_debug_text, COLOR_WHITE, COLOR_BLACK);
   init_pair(col_debug_data, COLOR_GREEN, COLOR_BLACK);

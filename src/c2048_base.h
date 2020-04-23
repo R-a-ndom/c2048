@@ -21,10 +21,12 @@ enum {
 
 typedef enum program_state {
   state_quit,
+  state_quit_from_dialog,
   state_begin,
   state_restart,
   state_show_about,
   state_continue,
+  state_continue_and_redraw,
 } program_state;
 
 
