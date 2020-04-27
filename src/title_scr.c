@@ -97,7 +97,7 @@ program_state game_title_screen()
     }
     else
     {
-      tmp_state = state_begin;
+      tmp_state = state_new_game;
     }
   } while ( tmp_state == state_continue );
   delwin(win_game_title);

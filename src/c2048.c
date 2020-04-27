@@ -9,6 +9,7 @@ base game data types and functions
 */
 
 #include <ncurses.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -100,6 +101,7 @@ void update_game_screen(WINDOW* win_field,
         coords->left_top_field.col);
   draw_hint_line(coords, main_hint_line);
   wrefresh(stdscr);
+  touchwin(win_field);
   wrefresh(win_field);
 }
 
@@ -122,8 +124,9 @@ void game_play()
                      coords.left_top_field.row,
                      coords.left_top_field.col);
   draw_game_screen(win_field, &coords, score);
-  keypad(win_field, TRUE);
-  do {
+  keypad(win_field, TRUE);  /****************/
+  for(;;)                   /*  MAIN CYCLE  */
+  {                         /****************/
     sym = wgetch(win_field);
 
     switch (sym)
@@ -132,8 +135,7 @@ void game_play()
       {
         clear();
         coords = get_game_scr_coords();
-        update_game_screen(win_field, &coords, score);
-        state = state_continue;
+        state = state_continue_and_redraw;
         break;
       }
 
@@ -149,10 +151,49 @@ void game_play()
       }
     }  /* switch */
 
-    if (state == state_continue_and_redraw)
+    switch (state)
     {
-      erase();
-      update_game_screen(win_field, &coords, score);
+
+      case state_new_game:
+      {
+        erase();
+        update_game_screen(win_field, &coords, score);
+        break;
+      }
+      case state_cancel_move:
+      {
+        erase();
+        update_game_screen(win_field, &coords, score);
+        break;
+      }
+
+      case state_show_about:
+      {
+        erase();
+        update_game_screen(win_field, &coords, score);
+        break;
+      }
+
+      case state_continue:
+      {
+        erase();
+        update_game_screen(win_field, &coords, score);
+        break;
+      }
+
+      case state_continue_and_redraw:
+      {
+        erase();
+        update_game_screen(win_field, &coords, score);
+        break;
+      }
+
+      case state_quit:
+      {
+        endwin();
+        printf("C2048 : thanks for playing !\n");
+        exit(EXIT_SUCCESS);
+      }
     }
-  } while ( state != state_quit );
+  }
 }

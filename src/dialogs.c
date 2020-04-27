@@ -22,7 +22,7 @@ static const scr_point game_menu_start = { 3,  3 };
 const char win_menu_title[] = "C  2 0 4 8  - game menu ";
 
 const menu_item_data game_menu_data[] = {
-  { " NEW GAME ", "Begin a NEW GAME",  state_restart },
+  { " NEW GAME ", "Begin a NEW GAME",  state_new_game },
   { "   ABOUT  ", "Show ABOUT window", state_show_about },
   { "   EXIT   ", "EXIT to shell",     state_quit }
 };
@@ -150,6 +150,7 @@ void update_menu_screen(WINDOW* win_field,
   debug_print_game_scr(coords);
 #endif
   wrefresh(stdscr);
+  touchwin(win_field);
   wrefresh(win_field);
   wrefresh(win_menu);
 }

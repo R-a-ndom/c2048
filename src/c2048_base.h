@@ -21,9 +21,8 @@ enum {
 
 typedef enum program_state {
   state_quit,
-  state_quit_from_dialog,
-  state_begin,
-  state_restart,
+  state_new_game,
+  state_cancel_move,
   state_show_about,
   state_continue,
   state_continue_and_redraw,

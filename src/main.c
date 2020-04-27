@@ -26,9 +26,9 @@ int main()
 
   game_state = game_title_screen();
 
-  if ( game_state == state_begin )
+  if ( game_state == state_new_game )
   {
-     game_play();
+    game_play();
   }
   endwin();
   return(EXIT_SUCCESS);
