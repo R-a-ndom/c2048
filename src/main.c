@@ -17,6 +17,7 @@ main file
 #include "c2048.h"
 #include "all_draws.h"
 #include "title_scr.h"
+#include "game_field.h"
 
 int main()
 {

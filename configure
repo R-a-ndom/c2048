@@ -24,8 +24,8 @@ debug_compiler_flags='-g -Wall -DDEBUG'
 release_compiler_flags='-Wall -O3'
 library_list='-lncurses'
 
-source_files_list=( "ncurs_etc" "c2048"
-                    "all_draws" "title_scr" "dialogs" )
+source_files_list=( "ncurs_etc" "c2048"   "all_draws"
+                    "title_scr" "dialogs" "game_field")
 
 # FUNCTIONS
 
@@ -189,7 +189,6 @@ generate_debug_version_makefile()
     write_compile_unit_info $name
   done
   write_clean_info
-  echo " READY"
 }
 
 generate_release_version_makefile()
@@ -205,7 +204,6 @@ generate_release_version_makefile()
     write_compile_unit_info $name
   done
   write_clean_info
-  echo " READY"
 }
 
 #########################
@@ -249,11 +247,13 @@ case $action in
   $target_debug_version)
     echo -n "MAKEFILE for debug version..."
     generate_debug_version_makefile
+    echo " READY"
   ;;
 
   $target_release_version)
     echo -n "MAKEFILE for release version..."
     generate_release_version_makefile
+    echo " READY"
   ;;
 
   $target_write_help)

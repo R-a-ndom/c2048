@@ -12,12 +12,14 @@ base game data types and functions
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <time.h>
 
 #include "ncurs_etc.h"
 #include "c2048_base.h"
 #include "all_draws.h"
 #include "dialogs.h"
 #include "c2048.h"
+#include "game_field.h"
 
 /* --- +++ --- */
 
@@ -113,20 +115,28 @@ void game_play()
   WINDOW* win_field;
   game_score score;
   chtype sym;
+  game_field main_field;
 
   score.current = score.high = 0;
   program_state state = state_continue;
 
+  srand(time(NULL));
   coords = get_game_scr_coords();
-
   clear();
   win_field = newwin(win_field_height, win_field_width,
                      coords.left_top_field.row,
                      coords.left_top_field.col);
   draw_game_screen(win_field, &coords, score);
-  keypad(win_field, TRUE);  /****************/
-  for(;;)                   /*  MAIN CYCLE  */
-  {                         /****************/
+  init_game_field(main_field);
+  draw_game_field(win_field, main_field);
+  keypad(win_field, TRUE);
+
+/****************/
+/*  MAIN CYCLE  */
+/****************/
+
+  for(;;)
+  {
     sym = wgetch(win_field);
 
     switch (sym)

@@ -57,10 +57,10 @@ enum {
 /* game elements sizes */
 
 enum {
-  side_size = 3,
+  field_size = 3,
 
-  cell_hsize = 3,
-  cell_vsize = 6,
+  cell_h_size = 3,
+  cell_v_size = 6,
 
   win_field_height = 22,
   win_field_width  = 31,
@@ -87,5 +87,15 @@ typedef struct game_score {
   int current;
   int high;
 } game_score;
+
+/* game field data types */
+
+typedef struct field_cell
+{
+  int value;
+  int color;
+} field_cell;
+
+typedef field_cell game_field[field_size + 1][field_size + 1];
 
 #endif
