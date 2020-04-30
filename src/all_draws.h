@@ -16,6 +16,10 @@ enum {
   grid_vmax = 29,
 };
 
+extern const char hint_main[];
+extern const char hint_about[];
+extern const char hint_game_menu[];
+
 /*********************************
  * -*- functions declaration -*- *
  *********************************/

@@ -40,4 +40,8 @@ program_state game_menu(WINDOW *win_field,
                         game_scr_coords *coords,
                         const menu_item_data menu_data[]);
 
+
+void about_window(WINDOW *win_field, game_scr_coords *coords);
+
+
 #endif

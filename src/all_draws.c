@@ -14,6 +14,15 @@ screen and windows drawing
 #include "c2048_base.h"
 #include "all_draws.h"
 
+const char hint_main[] =
+"ARROW KEYS - shift game field | BACKSPACE - cancel last move | ESC - game menu";
+
+const char hint_about[] =
+"ANY KEY - resume game";
+
+const char hint_game_menu[] =
+"LEFT, RIGHT - move cursor | ANY KEY - select | ESC - resume game";
+
 static const char score_msg[] = "SCORE          HIGH SCORE";
 
 static const scr_point grid_start    = {  4,  1 };
@@ -137,11 +146,11 @@ void draw_grid(WINDOW* win_field)
   scr_point sym_pos;
   for(sym_pos.row = grid_start.row;
       sym_pos.row <= grid_hmax;
-      sym_pos.row += (cell_hsize+1))
+      sym_pos.row += (cell_h_size+1))
   {
     for(sym_pos.col = grid_start.col;
         sym_pos.col <= grid_vmax;
-        sym_pos.col += (cell_vsize+1))
+        sym_pos.col += (cell_v_size+1))
       {
          mvwaddch(win_field, sym_pos.row, sym_pos.col, '+');
       }

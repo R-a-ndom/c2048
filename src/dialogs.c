@@ -27,9 +27,9 @@ const menu_item_data game_menu_data[] = {
   { "   EXIT   ", "EXIT to shell",     state_quit }
 };
 
-
-/* --- +++ --- */
-/* --- +++ --- */
+/* --- +++ --- *
+    game menu
+ * --- +++ --- */
 
 void draw_win_menu_static_elements(WINDOW* win_game_menu)
 {
@@ -170,7 +170,7 @@ program_state game_menu(WINDOW *win_field,
                          coords->left_top_game_menu.row,
                          coords->left_top_game_menu.col);
   draw_menu_window(win_menu, coords);
-  draw_hint_line(coords, menu_data[menu_current_pos].hint_line_msg);
+  draw_hint_line(coords, hint_game_menu);
   keypad(win_menu, TRUE);
   do {
     sym = wgetch(win_menu);
@@ -189,7 +189,6 @@ program_state game_menu(WINDOW *win_field,
         {
           menu_current_pos--;
           update_menu_window(win_menu, menu_current_pos);
-          draw_hint_line(coords, menu_data[menu_current_pos].hint_line_msg);
         }
         tmp_state = state_continue;
         break;
@@ -200,7 +199,6 @@ program_state game_menu(WINDOW *win_field,
         {
           menu_current_pos++;
           update_menu_window(win_menu, menu_current_pos);
-          draw_hint_line(coords, menu_data[menu_current_pos].hint_line_msg);
         }
         tmp_state = state_continue;
         break;
@@ -222,4 +220,23 @@ program_state game_menu(WINDOW *win_field,
 
   delwin(win_menu);
   return tmp_state;
+}
+
+/* --- +++ --- *
+  about  window
+ * --- +++ --- */
+
+void about_window(WINDOW *win_field, game_scr_coords *coords)
+{
+  WINDOW *win_about;
+  chtype sym;
+  win_about = newwin(win_dialog_height, win_dialog_width,
+                         coords->left_top_dialog.row,
+                         coords->left_top_dialog.col);
+  draw_hint_line(coords, hint_about);
+  keypad(win_about, TRUE);
+  wrefresh(win_about);
+  sym = wgetch(win_about);
+
+  delwin(win_about);
 }

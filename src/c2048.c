@@ -23,9 +23,6 @@ base game data types and functions
 
 /* --- +++ --- */
 
-static const char main_hint_line[] =
-"ARROW KEYS - shift game field | BACKSPACE - cancel last move | ESC - game menu";
-
 /* --- +++ --- */
 
 void game_init()
@@ -82,7 +79,7 @@ void draw_game_screen(WINDOW* win_field,
 #ifdef DEBUG
   debug_print_game_scr(coords);
 #endif
-  draw_hint_line(coords, main_hint_line);
+  draw_hint_line(coords, hint_main);
   draw_field_win_static_elements(win_field);
   draw_game_score(win_field, score);
   wrefresh(stdscr);
@@ -101,7 +98,7 @@ void update_game_screen(WINDOW* win_field,
   mvwin(win_field,
         coords->left_top_field.row,
         coords->left_top_field.col);
-  draw_hint_line(coords, main_hint_line);
+  draw_hint_line(coords, hint_main);
   wrefresh(stdscr);
   touchwin(win_field);
   wrefresh(win_field);
@@ -179,8 +176,10 @@ void game_play()
 
       case state_show_about:
       {
+        about_window(win_field, &coords);
         erase();
         update_game_screen(win_field, &coords, score);
+        state = state_continue;
         break;
       }
 
