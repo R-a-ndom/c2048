@@ -50,6 +50,9 @@ enum {
   col_menu_text,
   col_menu_sel_frame,
 
+  col_about_standard,
+  col_about_button,
+
   col_debug_text,
   col_debug_data,
 };
@@ -70,6 +73,10 @@ enum {
 
   win_dialog_height = 10,
   win_dialog_width  = 35,
+
+  win_about_height = 18,
+  win_about_width  = 40,
+
 };
 
 /* gameplay elements coords structure */
@@ -79,6 +86,7 @@ typedef struct game_scr_coords {
   scr_point left_top_field;
   scr_point left_top_game_menu;
   scr_point left_top_dialog;
+  scr_point left_top_about;
 } game_scr_coords;
 
 /* game score structure */

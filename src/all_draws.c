@@ -43,9 +43,12 @@ void init_all_colors()
   init_pair(col_field_score_text,   COLOR_CYAN,    COLOR_BLACK);
   init_pair(col_field_hiscore_text, COLOR_MAGENTA, COLOR_BLACK);
 
-  init_pair(col_menu_standard,    COLOR_CYAN, COLOR_BLUE);
+  init_pair(col_menu_standard,    COLOR_CYAN,    COLOR_BLUE);
   init_pair(col_menu_text,        COLOR_YELLOW,  COLOR_BLUE);
-  init_pair(col_menu_sel_frame,   COLOR_MAGENTA,  COLOR_BLUE);
+  init_pair(col_menu_sel_frame,   COLOR_MAGENTA, COLOR_BLUE);
+
+  init_pair(col_about_standard, COLOR_WHITE, COLOR_GREEN);
+  init_pair(col_about_button,   COLOR_RED,   COLOR_GREEN);
 
   init_pair(col_debug_text, COLOR_WHITE, COLOR_BLACK);
   init_pair(col_debug_data, COLOR_GREEN, COLOR_BLACK);
@@ -104,14 +107,16 @@ void debug_print_game_scr(game_scr_coords* coords)
   printw("%d %d ",
           coords->left_top_field.row,
           coords->left_top_field.col);
+
   attron(COLOR_PAIR(col_debug_text));
   attroff(A_BOLD);
-  printw("| Game menu : ");
+  printw("| Menu : ");
   attron(COLOR_PAIR(col_debug_data));
   attron(A_BOLD);
   printw("%d %d ",
           coords->left_top_game_menu.row,
           coords->left_top_game_menu.col);
+
   attron(COLOR_PAIR(col_debug_text));
   attroff(A_BOLD);
   printw("| Dialog : ");
@@ -120,6 +125,16 @@ void debug_print_game_scr(game_scr_coords* coords)
   printw("%d %d ",
           coords->left_top_dialog.row,
           coords->left_top_dialog.col);
+
+  attron(COLOR_PAIR(col_debug_text));
+  attroff(A_BOLD);
+  printw("| About : ");
+  attron(COLOR_PAIR(col_debug_data));
+  attron(A_BOLD);
+  printw("%d %d ",
+          coords->left_top_about.row,
+          coords->left_top_about.col);
+
   attron(COLOR_PAIR(col_debug_text));
   attroff(A_BOLD);
   printw("|");

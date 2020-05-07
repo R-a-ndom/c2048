@@ -45,7 +45,9 @@ void game_init()
   init_all_colors();
 }
 
-/* --- +++ --- */
+/* --- +++ ---
+TODO: coordinates calculating in other function
+*/
 
 game_scr_coords get_game_scr_coords()
 {
@@ -66,6 +68,9 @@ game_scr_coords get_game_scr_coords()
 
   tmp.left_top_dialog.row = scr_mid.row - ( win_dialog_height / 2 );
   tmp.left_top_dialog.col = scr_mid.col - ( win_dialog_width / 2 );
+
+  tmp.left_top_about.row = scr_mid.row - ( win_about_height / 2 );
+  tmp.left_top_about.col = scr_mid.col - ( win_about_width / 2 );
 
   return tmp;
 }

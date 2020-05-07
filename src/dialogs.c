@@ -146,6 +146,7 @@ void update_menu_screen(WINDOW* win_field,
   mvwin(win_menu,
         coords->left_top_game_menu.row,
         coords->left_top_game_menu.col);
+  draw_hint_line(coords, hint_game_menu);
 #ifdef DEBUG
   debug_print_game_scr(coords);
 #endif
@@ -169,8 +170,9 @@ program_state game_menu(WINDOW *win_field,
   win_menu = newwin(win_game_menu_height, win_game_menu_width,
                          coords->left_top_game_menu.row,
                          coords->left_top_game_menu.col);
-  draw_menu_window(win_menu, coords);
   draw_hint_line(coords, hint_game_menu);
+  wrefresh(stdscr);
+  draw_menu_window(win_menu, coords);
   keypad(win_menu, TRUE);
   do {
     sym = wgetch(win_menu);
@@ -226,17 +228,55 @@ program_state game_menu(WINDOW *win_field,
   about  window
  * --- +++ --- */
 
+void draw_about_win_static_elements(WINDOW* win_field)
+{
+  wdraw_frame(win_field,
+              win_about_height, win_about_width,
+              zero_point,
+              show_frame);
+}
+
 void about_window(WINDOW *win_field, game_scr_coords *coords)
 {
   WINDOW *win_about;
   chtype sym;
-  win_about = newwin(win_dialog_height, win_dialog_width,
-                         coords->left_top_dialog.row,
-                         coords->left_top_dialog.col);
-  draw_hint_line(coords, hint_about);
-  keypad(win_about, TRUE);
-  wrefresh(win_about);
-  sym = wgetch(win_about);
+  win_about = newwin(win_about_height, win_about_width,
+                         coords->left_top_about.row,
+                         coords->left_top_about.col);
+  draw_about_win_static_elements(win_about);
 
+  clear();
+  draw_hint_line(coords, hint_about);
+#ifdef DEBUG
+  debug_print_game_scr(coords);
+#endif
+  wrefresh(stdscr);
+  touchwin(win_field);
+  wrefresh(win_field);
+  wrefresh(win_about);
+
+  keypad(win_about, TRUE);
+  do {
+    sym = wgetch(win_about);
+    if (sym == KEY_RESIZE)
+    {
+      clear();
+      *coords = get_game_scr_coords();
+      mvwin(win_field,
+            coords->left_top_field.row,
+            coords->left_top_field.col);
+      mvwin(win_about,
+            coords->left_top_about.row,
+            coords->left_top_about.col);
+      draw_hint_line(coords, hint_about);
+#ifdef DEBUG
+      debug_print_game_scr(coords);
+#endif
+      wrefresh(stdscr);
+      touchwin(win_field);
+      wrefresh(win_field);
+      wrefresh(win_about);
+    }
+  } while (sym == KEY_RESIZE);
   delwin(win_about);
 }
