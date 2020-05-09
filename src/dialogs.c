@@ -134,30 +134,6 @@ void update_menu_window(WINDOW* win_menu,
 
 /* --- +++ --- */
 
-void update_menu_screen(WINDOW* win_field,
-                        WINDOW* win_menu,
-                        game_scr_coords* coords)
-{
-  clear();
-  *coords = get_game_scr_coords();
-  mvwin(win_field,
-        coords->left_top_field.row,
-        coords->left_top_field.col);
-  mvwin(win_menu,
-        coords->left_top_game_menu.row,
-        coords->left_top_game_menu.col);
-  draw_hint_line(coords, hint_game_menu);
-#ifdef DEBUG
-  debug_print_game_scr(coords);
-#endif
-  wrefresh(stdscr);
-  touchwin(win_field);
-  wrefresh(win_field);
-  wrefresh(win_menu);
-}
-
-/* --- +++ --- */
-
 program_state game_menu(WINDOW *win_field,
                         game_scr_coords* coords,
                         const menu_item_data menu_data[] )
@@ -207,7 +183,9 @@ program_state game_menu(WINDOW *win_field,
 
       case KEY_RESIZE:
       {
-        update_menu_screen(win_field, win_menu, coords);
+        update_game_screen_after_resizing(coords, win_field, win_menu,
+                                          &coords->left_top_game_menu,
+                                          hint_game_menu );
         tmp_state = state_continue;
         break;
       }
@@ -260,22 +238,9 @@ void about_window(WINDOW *win_field, game_scr_coords *coords)
     sym = wgetch(win_about);
     if (sym == KEY_RESIZE)
     {
-      clear();
-      *coords = get_game_scr_coords();
-      mvwin(win_field,
-            coords->left_top_field.row,
-            coords->left_top_field.col);
-      mvwin(win_about,
-            coords->left_top_about.row,
-            coords->left_top_about.col);
-      draw_hint_line(coords, hint_about);
-#ifdef DEBUG
-      debug_print_game_scr(coords);
-#endif
-      wrefresh(stdscr);
-      touchwin(win_field);
-      wrefresh(win_field);
-      wrefresh(win_about);
+      update_game_screen_after_resizing(coords, win_field, win_about,
+                                        &coords->left_top_about,
+                                        hint_about);
     }
   } while (sym == KEY_RESIZE);
   delwin(win_about);

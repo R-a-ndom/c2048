@@ -45,36 +45,6 @@ void game_init()
   init_all_colors();
 }
 
-/* --- +++ ---
-TODO: coordinates calculating in other function
-*/
-
-game_scr_coords get_game_scr_coords()
-{
-  game_scr_coords tmp;
-  scr_point scr_mid;
-
-  getmaxyx(stdscr, tmp.screen_size.row, tmp.screen_size.col);
-  tmp.screen_size.row--;
-  tmp.screen_size.col--;
-
-  scr_mid = get_middle();
-
-  tmp.left_top_field.row = scr_mid.row - ( win_field_height / 2 );
-  tmp.left_top_field.col = scr_mid.col - ( win_field_width / 2 );
-
-  tmp.left_top_game_menu.row = scr_mid.row - ( win_game_menu_height / 2 );
-  tmp.left_top_game_menu.col = scr_mid.col - ( win_game_menu_width / 2 );
-
-  tmp.left_top_dialog.row = scr_mid.row - ( win_dialog_height / 2 );
-  tmp.left_top_dialog.col = scr_mid.col - ( win_dialog_width / 2 );
-
-  tmp.left_top_about.row = scr_mid.row - ( win_about_height / 2 );
-  tmp.left_top_about.col = scr_mid.col - ( win_about_width / 2 );
-
-  return tmp;
-}
-
 /* --- +++ --- */
 
 void draw_game_screen(WINDOW* win_field,
@@ -145,8 +115,6 @@ void game_play()
     {
       case KEY_RESIZE:
       {
-        clear();
-        coords = get_game_scr_coords();
         state = state_continue_and_redraw;
         break;
       }
@@ -198,7 +166,10 @@ void game_play()
       case state_continue_and_redraw:
       {
         erase();
-        update_game_screen(win_field, &coords, score);
+        update_game_screen_after_resizing(&coords,
+                                          win_field,
+                                          NULL, NULL,
+                                          hint_main);
         break;
       }
 

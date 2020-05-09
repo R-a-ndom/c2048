@@ -54,9 +54,39 @@ void init_all_colors()
   init_pair(col_debug_data, COLOR_GREEN, COLOR_BLACK);
 }
 
+/* --- +++ ---
+TODO: coordinates calculating in other function
+*/
+
+game_scr_coords get_game_scr_coords()
+{
+  game_scr_coords tmp;
+  scr_point scr_mid;
+
+  getmaxyx(stdscr, tmp.screen_size.row, tmp.screen_size.col);
+  tmp.screen_size.row--;
+  tmp.screen_size.col--;
+
+  scr_mid = get_middle();
+
+  tmp.left_top_field.row = scr_mid.row - ( win_field_height / 2 );
+  tmp.left_top_field.col = scr_mid.col - ( win_field_width / 2 );
+
+  tmp.left_top_game_menu.row = scr_mid.row - ( win_game_menu_height / 2 );
+  tmp.left_top_game_menu.col = scr_mid.col - ( win_game_menu_width / 2 );
+
+  tmp.left_top_dialog.row = scr_mid.row - ( win_dialog_height / 2 );
+  tmp.left_top_dialog.col = scr_mid.col - ( win_dialog_width / 2 );
+
+  tmp.left_top_about.row = scr_mid.row - ( win_about_height / 2 );
+  tmp.left_top_about.col = scr_mid.col - ( win_about_width / 2 );
+
+  return tmp;
+}
+
 /* --- +++ --- */
 
-#ifdef DEBUG
+#ifdef DEBUG /*  debug printing */
 
 void debug_print_scr_size()
 {
@@ -205,4 +235,35 @@ void draw_field_win_static_elements(WINDOW* win_field)
 
   wattron(win_field, A_BOLD);
   mvwprintw(win_field, 1, 1, "%s", score_msg);
+}
+
+/* --- +++ --- */
+
+void update_game_screen_after_resizing(game_scr_coords *coords,
+                                       WINDOW *win_field,
+                                       WINDOW *win_another,
+                                       scr_point *win_another_coords,
+                                       const char *hint_line)
+
+{
+  clear();
+  *coords = get_game_scr_coords();
+  mvwin(win_field,
+        coords->left_top_field.row,
+        coords->left_top_field.col);
+#ifdef DEBUG
+  debug_print_game_scr(coords);
+#endif
+  draw_hint_line(coords, hint_line);
+  wrefresh(stdscr);
+  touchwin(win_field);
+  wrefresh(win_field);
+  if (win_another)
+  {
+    mvwin(win_another,
+          win_another_coords->row,
+          win_another_coords->col);
+    touchwin(win_another);
+    wrefresh(win_another);
+  }
 }

@@ -26,6 +26,7 @@ extern const char hint_game_menu[];
 
 void init_all_colors();
 
+game_scr_coords get_game_scr_coords();
 
 #ifdef DEBUG
 
@@ -44,5 +45,11 @@ void draw_field_win_static_elements(WINDOW* win_field);
 void draw_game_score(WINDOW* win_field, game_score score);
 
 void draw_grid(WINDOW* win_game_field);
+
+void update_game_screen_after_resizing(game_scr_coords *coords,
+                                       WINDOW *win_field,
+                                       WINDOW *win_another,
+                                       scr_point *win_another_coords,
+                                       const char *hint_line);
 
 #endif
