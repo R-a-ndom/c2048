@@ -33,23 +33,39 @@ static const scr_point hiscore_start = {  2, 16 };
 
 void init_all_colors()
 {
-  init_pair(col_standard, COLOR_BLUE,    COLOR_BLACK);
+/* cell colors */
+  init_pair( 1, COLOR_YELLOW, COLOR_BLUE);
+  init_pair( 2, COLOR_RED, COLOR_GREEN);
+  init_pair( 3, COLOR_WHITE, COLOR_RED);
+  init_pair( 4, COLOR_WHITE, COLOR_MAGENTA);
+  init_pair( 5, COLOR_GREEN, COLOR_YELLOW);
+  init_pair( 6, COLOR_GREEN, COLOR_WHITE);
+  init_pair( 7, COLOR_CYAN, COLOR_BLACK);
+  init_pair( 8, COLOR_CYAN, COLOR_BLUE);
+  init_pair( 9, COLOR_BLACK, COLOR_CYAN);
+  init_pair(10, COLOR_WHITE, COLOR_GREEN);
+  init_pair(11, COLOR_YELLOW, COLOR_RED);
+  init_pair(12, COLOR_BLUE, COLOR_MAGENTA);
+  init_pair(13, COLOR_GREEN, COLOR_YELLOW);
+  init_pair(14, COLOR_RED, COLOR_WHITE);
 
+  init_pair(col_standard, COLOR_BLUE,    COLOR_BLACK);
+/* title picture */
   init_pair(col_title_frame,   COLOR_YELLOW, COLOR_BLACK);
   init_pair(col_title_picture, COLOR_CYAN,   COLOR_MAGENTA);
   init_pair(col_title_msg,     COLOR_WHITE,  COLOR_BLACK);
-
+/* game field */
   init_pair(col_field_standard,     COLOR_WHITE,   COLOR_BLACK);
   init_pair(col_field_score_text,   COLOR_CYAN,    COLOR_BLACK);
   init_pair(col_field_hiscore_text, COLOR_MAGENTA, COLOR_BLACK);
-
+/* game menu */
   init_pair(col_menu_standard,    COLOR_CYAN,    COLOR_BLUE);
   init_pair(col_menu_text,        COLOR_YELLOW,  COLOR_BLUE);
   init_pair(col_menu_sel_frame,   COLOR_MAGENTA, COLOR_BLUE);
-
+/* about window */
   init_pair(col_about_standard, COLOR_WHITE, COLOR_GREEN);
   init_pair(col_about_button,   COLOR_RED,   COLOR_GREEN);
-
+/* debug info */
   init_pair(col_debug_text, COLOR_WHITE, COLOR_BLACK);
   init_pair(col_debug_data, COLOR_GREEN, COLOR_BLACK);
 }

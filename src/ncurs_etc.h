@@ -72,7 +72,7 @@ void wclear_rect(WINDOW *win_ptr,
                  scr_point start_point,
                  int v_size,int h_size);
 
-#ifndef F_CKING_CODE
+#ifdef F_CKING_CODE
 
 /*
  *  turning on the color pair with or without A_BOLD attribute

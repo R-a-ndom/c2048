@@ -47,6 +47,15 @@ void game_init()
 
 /* --- +++ --- */
 
+void start_new_game(game_field field)
+{
+  init_game_field(field);
+  add_new_cell(field);
+  add_new_cell(field);
+}
+
+/* --- +++ --- */
+
 void draw_game_screen(WINDOW* win_field,
                       game_scr_coords* coords,
                       game_score score)
@@ -99,7 +108,7 @@ void game_play()
                      coords.left_top_field.row,
                      coords.left_top_field.col);
   draw_game_screen(win_field, &coords, score);
-  init_game_field(main_field);
+  start_new_game(main_field);
   draw_game_field(win_field, main_field);
   keypad(win_field, TRUE);
 
