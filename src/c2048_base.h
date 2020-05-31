@@ -61,6 +61,7 @@ enum {
 
 enum {
   field_size = 3,
+  max_cell_num = 4,
 
   cell_h_size = 3,
   cell_v_size = 6,

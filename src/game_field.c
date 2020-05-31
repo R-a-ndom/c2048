@@ -39,8 +39,8 @@ void get_new_num_coords(game_field field, int *h_coord, int *v_coord)
 {
   int h_tmp, v_tmp;
   do {
-    h_tmp = (int)((double)field_size*rand()/(RAND_MAX + 1.0));
-    v_tmp = (int)((double)field_size*rand()/(RAND_MAX + 1.0));
+    h_tmp = (int)((double)max_cell_num*rand()/(RAND_MAX + 1.0));
+    v_tmp = (int)((double)max_cell_num*rand()/(RAND_MAX + 1.0));
   } while (field[h_tmp][v_tmp].value != 0);
   *h_coord = h_tmp;
   *v_coord = v_tmp;
