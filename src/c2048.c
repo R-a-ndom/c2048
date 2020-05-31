@@ -62,6 +62,8 @@ void draw_game_screen(WINDOW* win_field,
 {
 #ifdef DEBUG
   debug_print_game_scr(coords);
+#else
+  print_head_message(coords);
 #endif
   draw_hint_line(coords, hint_main);
   draw_field_win_static_elements(win_field);
@@ -78,6 +80,8 @@ void update_game_screen(WINDOW* win_field,
 {
 #ifdef DEBUG
   debug_print_game_scr(coords);
+#else
+  print_head_message(coords);
 #endif
   mvwin(win_field,
         coords->left_top_field.row,

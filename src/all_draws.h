@@ -14,6 +14,8 @@ screen and windows drawing
 enum {
   grid_hmax = 29,
   grid_vmax = 29,
+
+  head_msg_length = 42,
 };
 
 extern const char hint_main[];
@@ -35,6 +37,10 @@ void debug_print_scr_size();
 void debug_print_title_scr(scr_point title_start);
 
 void debug_print_game_scr(game_scr_coords* coords);
+
+#else
+
+void print_head_message(game_scr_coords* coords);
 
 #endif
 

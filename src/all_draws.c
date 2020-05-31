@@ -25,6 +25,9 @@ const char hint_game_menu[] =
 
 static const char score_msg[] = "SCORE          HIGH SCORE";
 
+const char head_message[] =
+"Try to become an 2048 number. GOOD LUCK!";
+
 static const scr_point grid_start    = {  4,  1 };
 static const scr_point score_start   = {  2,  1 };
 static const scr_point hiscore_start = {  2, 16 };
@@ -185,6 +188,16 @@ void debug_print_game_scr(game_scr_coords* coords)
   attroff(A_BOLD);
   printw("|");
 }
+#else
+
+void print_head_message(game_scr_coords* coords)
+{
+  int head_msg_h_pos;
+  head_msg_h_pos = ( coords->screen_size.col - head_msg_length  ) / 2;
+  move(0, head_msg_h_pos);
+  printw("%s", head_message);
+}
+
 #endif
 
 /* --- +++ --- */
@@ -269,6 +282,8 @@ void update_game_screen_after_resizing(game_scr_coords *coords,
         coords->left_top_field.col);
 #ifdef DEBUG
   debug_print_game_scr(coords);
+#else
+  print_head_message(coords);
 #endif
   draw_hint_line(coords, hint_line);
   wrefresh(stdscr);

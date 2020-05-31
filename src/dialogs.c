@@ -227,6 +227,8 @@ void about_window(WINDOW *win_field, game_scr_coords *coords)
   draw_hint_line(coords, hint_about);
 #ifdef DEBUG
   debug_print_game_scr(coords);
+#else
+  print_head_message(coords);
 #endif
   wrefresh(stdscr);
   touchwin(win_field);
