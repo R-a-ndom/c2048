@@ -18,4 +18,6 @@ void draw_game_field(WINDOW *win_field, game_field field);
 
 void add_new_cell(game_field field);
 
+void copy_field(game_field field_from, game_field field_to);
+
 #endif

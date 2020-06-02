@@ -80,6 +80,11 @@ enum {
 
 };
 
+enum {
+  move_occured,
+  move_not_occured
+};
+
 /* gameplay elements coords structure */
 
 typedef struct game_scr_coords {
@@ -106,5 +111,11 @@ typedef struct field_cell
 } field_cell;
 
 typedef field_cell game_field[field_size + 1][field_size + 1];
+
+typedef struct move_state
+{
+  int occuring;
+  int result;
+} move_state;
 
 #endif

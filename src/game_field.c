@@ -21,7 +21,9 @@ static const scr_point field_start = { 5, 2 };
 const double max_rand_num = 100.0;
 const int border_rand_num =    90;
 
-/* --- +++ --- */
+/* --- +++ --- +++ --- +++ --- +++ --- *
+ *     numbers and coords generaing    *
+ * --- +++ --- +++ --- +++ --- +++ --- */
 
 int new_field_number()
 {
@@ -72,10 +74,9 @@ void init_game_field(game_field field)
     }
 }
 
-/* --- +++ --- */
-
-
-/* --- +++ --- */
+/* --- +++ --- +++ --- +++ --- +++ --- *
+ *   drawing cells on field window     *
+ * --- +++ --- +++ --- +++ --- +++ --- */
 
 scr_point get_cell_draw_coords(int h_num, int v_num)
 {
@@ -87,7 +88,6 @@ scr_point get_cell_draw_coords(int h_num, int v_num)
 
 /* --- +++ --- */
 
-/* --- +++ --- */
 
 void draw_one_cell(WINDOW* win_field,
                    game_field field,
@@ -120,5 +120,20 @@ void draw_game_field(WINDOW *win_field, game_field field)
     for(j = 0; j <= field_size; j++)
     {
       draw_one_cell(win_field, field, i, j);
+    }
+}
+
+/* --- +++ --- +++ --- +++ --- +++ --- *
+ *    manipulating with field array    *
+ * --- +++ --- +++ --- +++ --- +++ --- */
+
+void copy_field(game_field field_from, game_field field_to)
+{
+  int i,j;
+  for(i = 0; i<= field_size; i++)
+    for(j = 0; j<= field_size; j++)
+    {
+      field_to[i][j].value = field_from[i][j].value;
+      field_to[i][j].color = field_from[i][j].color;
     }
 }

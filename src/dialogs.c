@@ -51,7 +51,7 @@ void draw_menu_item(WINDOW* win_menu,
 {
   if ( item_state == item_sel )
   {
-    wattrset(win_menu, COLOR_PAIR(col_menu_sel_frame));
+    wattrset(win_menu, COLOR_PAIR(col_menu_sel_frame) | A_BOLD);
     wdraw_frame(win_menu,
                 menu_item_height, menu_item_width,
                 item_start, star_frame );

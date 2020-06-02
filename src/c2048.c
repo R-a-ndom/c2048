@@ -47,11 +47,12 @@ void game_init()
 
 /* --- +++ --- */
 
-void start_new_game(game_field field)
+void start_new_game(game_field main_field, game_field backup_field)
 {
-  init_game_field(field);
-  add_new_cell(field);
-  add_new_cell(field);
+  init_game_field(main_field);
+  add_new_cell(main_field);
+  add_new_cell(main_field);
+  copy_field(main_field, backup_field);
 }
 
 /* --- +++ --- */
@@ -100,7 +101,9 @@ void game_play()
   WINDOW* win_field;
   game_score score;
   chtype sym;
+
   game_field main_field;
+  game_field backup_field;
 
   score.current = score.high = 0;
   program_state state = state_continue;
@@ -112,7 +115,7 @@ void game_play()
                      coords.left_top_field.row,
                      coords.left_top_field.col);
   draw_game_screen(win_field, &coords, score);
-  start_new_game(main_field);
+  start_new_game(main_field, backup_field);
   draw_game_field(win_field, main_field);
   keypad(win_field, TRUE);
 
