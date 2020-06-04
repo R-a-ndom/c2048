@@ -20,6 +20,7 @@ base game data types and functions
 #include "dialogs.h"
 #include "c2048.h"
 #include "game_field.h"
+#include "shift.h"
 
 /* --- +++ --- */
 
@@ -100,6 +101,7 @@ void game_play()
   game_scr_coords coords;
   WINDOW* win_field;
   game_score score;
+  move_state m_state;
   chtype sym;
 
   game_field main_field;
@@ -129,6 +131,13 @@ void game_play()
 
     switch (sym)
     {
+      case KEY_LEFT: case KEY_RIGHT: case KEY_UP: case KEY_DOWN:
+      {
+        game_move(sym, main_field, backup_field, m_state);
+        state = state_continue;
+        break;
+      }
+
       case KEY_RESIZE:
       {
         state = state_continue_and_redraw;
