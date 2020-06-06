@@ -33,6 +33,7 @@ const menu_item_data game_menu_data[] = {
 
 void draw_win_menu_static_elements(WINDOW* win_game_menu)
 {
+  wattrset(win_game_menu, COLOR_PAIR(col_menu_standard) | A_BOLD);
   wdraw_frame(win_game_menu,
               win_game_menu_height, win_game_menu_width,
               zero_point, show_frame);

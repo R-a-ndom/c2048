@@ -137,3 +137,27 @@ void copy_field(game_field field_from, game_field field_to)
       field_to[i][j].color = field_from[i][j].color;
     }
 }
+
+/* --- +++ --- */
+
+int there_are_free_cells(game_field field)
+{
+  int i,j;
+  int check_flag = BOOL_FALSE;
+  for(i = 0; i<= field_size; i++)
+  {
+    for(j = 0; j<= field_size; j++)
+    {
+      if (field[i][j].value == 0)
+      {
+        check_flag = BOOL_TRUE;
+        break;
+      }
+    }
+    if (check_flag == BOOL_TRUE)
+    {
+      break;
+    }
+  }
+  return check_flag;
+}

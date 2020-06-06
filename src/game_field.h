@@ -20,4 +20,6 @@ void add_new_cell(game_field field);
 
 void copy_field(game_field field_from, game_field field_to);
 
+int there_are_free_cells(game_field field);
+
 #endif

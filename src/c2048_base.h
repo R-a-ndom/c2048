@@ -12,6 +12,9 @@ base game data types and functions
 #ifndef C2048_BASE_H
 #define C2048_BASE_H
 
+#define BOOL_TRUE 1
+#define BOOL_FALSE 0
+
 enum {
   local_esc_key   =   27,
   local_enter_key = '\n',  // in WINDOWS / DOS    enter key = 13
