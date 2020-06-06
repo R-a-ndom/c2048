@@ -161,3 +161,34 @@ int there_are_free_cells(game_field field)
   }
   return check_flag;
 }
+
+/* --- +++ --- */
+
+int no_moves(game_field field)
+{
+  int i,j;
+  int check_flag = BOOL_TRUE;
+  for(i = 0; i <= field_size; i++)
+  {
+    for(j = 0; j <= field_size; j++)
+    {
+      if (field[i][j].value == field[i][j+1].value)
+      {
+         check_flag = BOOL_FALSE;
+         break;
+      }
+      if (field[j][i].value == field[j][i+1].value)
+      {
+         check_flag = BOOL_FALSE;
+         break;
+      }
+
+    }
+    if (check_flag == BOOL_FALSE)
+    {
+      break;
+    }
+  }
+  return check_flag;
+}
+

@@ -22,4 +22,6 @@ void copy_field(game_field field_from, game_field field_to);
 
 int there_are_free_cells(game_field field);
 
+int no_moves(game_field field);
+
 #endif
