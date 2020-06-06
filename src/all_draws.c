@@ -15,13 +15,13 @@ screen and windows drawing
 #include "all_draws.h"
 
 const char hint_main[] =
-"ARROW KEYS - shift game field | BACKSPACE - cancel last move | ESC - game menu";
+"ARROW KEYS - shift game field | BACKSPACE - cancel last move | F10 - game menu";
 
 const char hint_about[] =
 "ANY KEY - resume game";
 
 const char hint_game_menu[] =
-"LEFT, RIGHT - move cursor | ANY KEY - select | ESC - resume game";
+"LEFT, RIGHT - move cursor | ANY KEY - select | F10 - resume game";
 
 static const char score_msg[] = "SCORE          HIGH SCORE";
 
@@ -105,89 +105,56 @@ game_scr_coords get_game_scr_coords()
 
 /* --- +++ --- */
 
-#ifdef DEBUG /*  debug printing */
+#ifdef DEBUG
 
-void debug_print_scr_size()
+/*  debug printing */
+
+void debug_print_coord_str(scr_point coord_str_pos, const char *caption, scr_point* point)
 {
-  scr_point screen_size;
+  move( coord_str_pos.row, coord_str_pos.col );
+  attrset(COLOR_PAIR(col_debug_text) | A_NORMAL);
+  printw("| %s ", caption);
+  attrset(COLOR_PAIR(col_debug_data) | A_BOLD);
+  printw("%3d %3d", point->row, point->col);
+  attrset(COLOR_PAIR(col_debug_text) | A_NORMAL);
+  printw(" |");
 
-  getmaxyx(stdscr, screen_size.row, screen_size.col);
-  attron(COLOR_PAIR(col_debug_text));
-  printw("| Size : ");
-  attron(COLOR_PAIR(col_debug_data));
-  attron(A_BOLD);
-  printw("%d ", screen_size.row);
-  attron(COLOR_PAIR(col_debug_text));
-  attroff(A_BOLD);
-  printw("x ");
-  attron(COLOR_PAIR(col_debug_data));
-  attron(A_BOLD);
-  printw("%d ", screen_size.col);
 }
+
+/* --- +++ --- */
 
 void debug_print_title_scr(scr_point title_start)
 {
-  move( 0, 1);
-  debug_print_scr_size();
+  scr_point debug_info_pos;
+  scr_point scr_size;
 
-  attron(COLOR_PAIR(col_debug_text));
-  attroff(A_BOLD);
-  printw("| Title : ");
-
-  attron(COLOR_PAIR(col_debug_data));
-  attron(A_BOLD);
-  printw("%d %d ",
-          title_start.row, title_start.col);
-
-  attron(COLOR_PAIR(col_debug_text));
-  attroff(A_BOLD);
-  printw("|");
+  debug_info_pos.row = 0;
+  debug_info_pos.col = 1;
+  getmaxyx(stdscr, scr_size.row, scr_size.col);
+  debug_print_coord_str(debug_info_pos,"Screen :", &scr_size);
+  debug_info_pos.row++;
+  debug_print_coord_str(debug_info_pos,"Title  :", &title_start);
 }
+
+/* --- +++ --- */
 
 void debug_print_game_scr(game_scr_coords* coords)
 {
-  move( 0, 1);
-  debug_print_scr_size();
-  attron(COLOR_PAIR(col_debug_text));
-  attroff(A_BOLD);
-  printw("| Field : ");
-  attron(COLOR_PAIR(col_debug_data));
-  attron(A_BOLD);
-  printw("%d %d ",
-          coords->left_top_field.row,
-          coords->left_top_field.col);
+  scr_point debug_info_pos;
+  debug_info_pos.row = 0;
+  debug_info_pos.col = 1;
 
-  attron(COLOR_PAIR(col_debug_text));
-  attroff(A_BOLD);
-  printw("| Menu : ");
-  attron(COLOR_PAIR(col_debug_data));
-  attron(A_BOLD);
-  printw("%d %d ",
-          coords->left_top_game_menu.row,
-          coords->left_top_game_menu.col);
-
-  attron(COLOR_PAIR(col_debug_text));
-  attroff(A_BOLD);
-  printw("| Dialog : ");
-  attron(COLOR_PAIR(col_debug_data));
-  attron(A_BOLD);
-  printw("%d %d ",
-          coords->left_top_dialog.row,
-          coords->left_top_dialog.col);
-
-  attron(COLOR_PAIR(col_debug_text));
-  attroff(A_BOLD);
-  printw("| About : ");
-  attron(COLOR_PAIR(col_debug_data));
-  attron(A_BOLD);
-  printw("%d %d ",
-          coords->left_top_about.row,
-          coords->left_top_about.col);
-
-  attron(COLOR_PAIR(col_debug_text));
-  attroff(A_BOLD);
-  printw("|");
+  debug_print_coord_str(debug_info_pos,"Screen :", &coords->screen_size);
+  debug_info_pos.row++;
+  debug_print_coord_str(debug_info_pos,"Field  :", &coords->left_top_field);
+  debug_info_pos.row++;
+  debug_print_coord_str(debug_info_pos,"Menu   :", &coords->left_top_game_menu);
+  debug_info_pos.row++;
+  debug_print_coord_str(debug_info_pos,"Dialog :", &coords->left_top_dialog);
+  debug_info_pos.row++;
+  debug_print_coord_str(debug_info_pos,"About  :", &coords->left_top_about);
 }
+
 #else
 
 void print_head_message(game_scr_coords* coords)

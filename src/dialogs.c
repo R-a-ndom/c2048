@@ -157,6 +157,12 @@ program_state game_menu(WINDOW *win_field,
     {
       case local_esc_key:
       {
+        tmp_state = state_continue;
+        break;
+      }
+
+      case KEY_F(10):
+      {
         tmp_state = state_continue_and_redraw;
         break;
       }

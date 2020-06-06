@@ -78,6 +78,7 @@ enum {
   win_about_height = 18,
   win_about_width  = 40,
 
+  draw_pause = 300,
 };
 
 enum {
@@ -110,7 +111,7 @@ typedef struct field_cell
   int color;
 } field_cell;
 
-typedef field_cell game_field[field_size + 1][field_size + 1];
+typedef field_cell game_field[max_cell_num][max_cell_num];
 
 typedef struct move_state
 {

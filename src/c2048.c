@@ -133,7 +133,7 @@ void game_play()
     {
       case KEY_LEFT: case KEY_RIGHT: case KEY_UP: case KEY_DOWN:
       {
-        game_move(sym, main_field, backup_field, m_state);
+        game_move(win_field, sym, main_field, backup_field, m_state);
         state = state_continue;
         break;
       }
@@ -144,7 +144,7 @@ void game_play()
         break;
       }
 
-      case local_esc_key:
+      case KEY_F(10):
       {
         state = game_menu(win_field, &coords, game_menu_data);
         break;
