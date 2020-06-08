@@ -112,6 +112,7 @@ typedef struct field_cell
 {
   int value;
   int color;
+  int enable_adding;
 } field_cell;
 
 typedef field_cell game_field[max_cell_num][max_cell_num];
@@ -119,7 +120,7 @@ typedef field_cell game_field[max_cell_num][max_cell_num];
 typedef struct move_state
 {
   int occuring;
-  int result;
+  int score;
 } move_state;
 
 #endif

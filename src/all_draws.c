@@ -146,6 +146,8 @@ void debug_print_game_scr(game_scr_coords* coords)
 
   debug_print_coord_str(debug_info_pos,"Screen :", &coords->screen_size);
   debug_info_pos.row++;
+  mvprintw(debug_info_pos.row, debug_info_pos.col, "%s", "--------------------");
+  debug_info_pos.row++;
   debug_print_coord_str(debug_info_pos,"Field  :", &coords->left_top_field);
   debug_info_pos.row++;
   debug_print_coord_str(debug_info_pos,"Menu   :", &coords->left_top_game_menu);

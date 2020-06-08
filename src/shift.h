@@ -13,25 +13,25 @@ game field shift functions
 
 void shift_field_left(WINDOW* win_field,
                       game_field field,
-                      move_state state);
+                      move_state* m_state);
 
 void shift_field_right(WINDOW* win_field,
                        game_field field,
-                       move_state state);
+                       move_state* m_state);
 
 void shift_field_up(WINDOW* win_field,
                     game_field field,
-                    move_state state);
+                    move_state* m_state);
 
 void shift_field_dawn(WINDOW* win_field,
                       game_field field,
-                      move_state state);
+                      move_state* m_state);
 
 void game_move(WINDOW* win_field,
                chtype sym,
                game_field field,
                game_field field_backup,
-               move_state m_state);
+               move_state* m_state);
 
 
 #endif

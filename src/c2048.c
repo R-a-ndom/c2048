@@ -133,7 +133,7 @@ void game_play()
     {
       case KEY_LEFT: case KEY_RIGHT: case KEY_UP: case KEY_DOWN:
       {
-        game_move(win_field, sym, main_field, backup_field, m_state);
+        game_move(win_field, sym, main_field, backup_field, &m_state);
         state = state_continue;
         break;
       }

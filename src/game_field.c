@@ -71,6 +71,7 @@ void init_game_field(game_field field)
     {
        field[i][j].value = 0;
        field[i][j].color = 0;
+       field[i][j].enable_adding = BOOL_TRUE;
     }
 }
 
@@ -133,8 +134,7 @@ void copy_field(game_field field_from, game_field field_to)
   for(i = 0; i<= field_size; i++)
     for(j = 0; j<= field_size; j++)
     {
-      field_to[i][j].value = field_from[i][j].value;
-      field_to[i][j].color = field_from[i][j].color;
+      field_to[i][j] = field_from[i][j];
     }
 }
 
