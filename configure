@@ -134,6 +134,13 @@ write_constant_section()
   echo "#--------------------------------#" >> Makefile
 }
 
+write_creating_dirs()
+{
+  echo -e -n "\tif [ -d \$(BIN_DIR) ]; then echo \"Directory \$(BIN_DIR) exists.\"">> Makefile
+  echo -n " else mkdir -p \$(BIN_DIR); echo \"Creating directory \$(BIN_DIR)\"; " >> Makefile
+  echo -e -n  "fi\n" >> Makefile
+}
+
 write_linking_info()
 {
   echo -n "\$(PROGRAM_NAME):\$(BIN_DIR)main.o" >> Makefile
@@ -150,6 +157,7 @@ write_linking_info()
 write_compile_main_info()
 {
   echo "\$(BIN_DIR)main.o:src/main.c" >> Makefile
+  write_creating_dirs
   echo -n -e "\t\$(CC) -c \$(CFLAGS)" >> Makefile
   echo -n " -o \$(BIN_DIR)main.o src/main.c" >> Makefile
   echo " \$(LIB_LIST)" >> Makefile
