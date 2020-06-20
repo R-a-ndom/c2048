@@ -204,6 +204,6 @@ void game_play()
         printf("C2048 : thanks for playing !\n");
         exit(EXIT_SUCCESS);
       }
-    }
+    }  /* switch */
   }
 }

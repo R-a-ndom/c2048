@@ -23,7 +23,7 @@ const char win_menu_title[] = "C  2 0 4 8  - game menu ";
 
 const menu_item_data game_menu_data[] = {
   { " NEW GAME ", "Begin a NEW GAME",  state_new_game },
-  { "   ABOUT  ", "Show ABOUT window", state_show_about },
+  { "  ABOUT   ", "Show ABOUT window", state_show_about },
   { "   EXIT   ", "EXIT to shell",     state_quit }
 };
 

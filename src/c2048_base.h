@@ -84,11 +84,6 @@ enum {
   draw_pause = 300,
 };
 
-enum {
-  move_occured,
-  move_not_occured
-};
-
 /* gameplay elements coords structure */
 
 typedef struct game_scr_coords {
@@ -112,14 +107,14 @@ typedef struct field_cell
 {
   int value;
   int color;
-  int enable_adding;
+  int update_lock;
 } field_cell;
 
 typedef field_cell game_field[max_cell_num][max_cell_num];
 
 typedef struct move_state
 {
-  int occuring;
+  int move_occuring;
   int score;
 } move_state;
 

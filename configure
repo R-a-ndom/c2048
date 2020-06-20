@@ -136,7 +136,7 @@ write_constant_section()
 
 write_creating_dirs()
 {
-  echo -e -n "\tif [ -d \$(BIN_DIR) ]; then echo \"Directory \$(BIN_DIR) exists.\"">> Makefile
+  echo -e -n "\tif [ -d \$(BIN_DIR) ]; then echo \"Directory \$(BIN_DIR) exists.\"; ">> Makefile
   echo -n " else mkdir -p \$(BIN_DIR); echo \"Creating directory \$(BIN_DIR)\"; " >> Makefile
   echo -e -n  "fi\n" >> Makefile
 }

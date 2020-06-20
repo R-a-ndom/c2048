@@ -71,7 +71,7 @@ void init_game_field(game_field field)
     {
        field[i][j].value = 0;
        field[i][j].color = 0;
-       field[i][j].enable_adding = BOOL_TRUE;
+       field[i][j].update_lock = BOOL_FALSE;
     }
 }
 
