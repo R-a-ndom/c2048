@@ -68,9 +68,11 @@ void init_all_colors()
 /* about window */
   init_pair(col_about_standard, COLOR_WHITE, COLOR_GREEN);
   init_pair(col_about_button,   COLOR_RED,   COLOR_GREEN);
+#ifdef DEBUG
 /* debug info */
   init_pair(col_debug_text, COLOR_WHITE, COLOR_BLACK);
   init_pair(col_debug_data, COLOR_GREEN, COLOR_BLACK);
+#endif
 }
 
 /* --- +++ ---

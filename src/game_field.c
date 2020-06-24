@@ -163,6 +163,7 @@ int there_are_free_cells(game_field field)
 }
 
 /* --- +++ --- */
+/* TO FIX !*/
 
 int no_moves(game_field field)
 {
@@ -182,7 +183,6 @@ int no_moves(game_field field)
          check_flag = BOOL_FALSE;
          break;
       }
-
     }
     if (check_flag == BOOL_FALSE)
     {

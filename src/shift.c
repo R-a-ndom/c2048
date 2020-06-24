@@ -41,6 +41,16 @@ void reset_update_lock(game_field field)
 
 /* --- +++ --- */
 
+void switch_move_occuring(move_state* m_state)
+{
+  if (m_state->move_occuring == BOOL_FALSE)
+  {
+    m_state->move_occuring = BOOL_TRUE;
+  }
+}
+
+/* --- +++ --- */
+
 void update_cell(game_field field,
                  int row_pos, int col_pos,
                  move_state* m_state)
@@ -48,11 +58,8 @@ void update_cell(game_field field,
   field[row_pos][col_pos].value *= 2;
   field[row_pos][col_pos].color += 1;
   m_state->score += field[row_pos][col_pos].value;
-  if (m_state->move_occuring == BOOL_FALSE)
-  {
-    m_state->move_occuring = BOOL_TRUE;
-  }
   field[row_pos][col_pos].update_lock = BOOL_TRUE;
+  switch_move_occuring(m_state);
 }
 
 /* pushing cells */
@@ -67,6 +74,7 @@ void push_cell_left(game_field field, int row_pos, int col_pos, move_state* m_st
     } else {
       swap_cells(&field[row_pos][col_pos-1], &field[row_pos][col_pos]);
       col_pos--;
+      switch_move_occuring(m_state);
     }
   }
   if ( col_pos != 0 )
@@ -82,7 +90,7 @@ void push_cell_left(game_field field, int row_pos, int col_pos, move_state* m_st
 
 /* --- +++ --- */
 
-void push_cell_right(game_field field, int row_pos, int col_pos)
+void push_cell_right(game_field field, int row_pos, int col_pos, move_state* m_state)
 {
   while(field[row_pos][col_pos+1].value == 0)
   {
@@ -92,13 +100,23 @@ void push_cell_right(game_field field, int row_pos, int col_pos)
     } else {
       swap_cells(&field[row_pos][col_pos+1], &field[row_pos][col_pos]);
       col_pos++;
+      switch_move_occuring(m_state);
+    }
+  }
+  if ( col_pos != field_size )
+  {
+    if ( (field[row_pos][col_pos+1].value == field[row_pos][col_pos].value)
+        && (!field[row_pos][col_pos].update_lock) )
+    {
+      update_cell(field, row_pos, col_pos+1, m_state);
+      field[row_pos][col_pos] = clear_cell;
     }
   }
 }
 
 /* --- +++ --- */
 
-void push_cell_up(game_field field, int row_pos, int col_pos)
+void push_cell_up(game_field field, int row_pos, int col_pos, move_state* m_state)
 {
   while(field[row_pos-1][col_pos].value == 0)
   {
@@ -108,13 +126,23 @@ void push_cell_up(game_field field, int row_pos, int col_pos)
     } else {
       swap_cells(&field[row_pos-1][col_pos], &field[row_pos][col_pos]);
       row_pos--;
+      switch_move_occuring(m_state);
+    }
+  }
+  if ( row_pos != 0 )
+  {
+    if ( (field[row_pos-1][col_pos].value == field[row_pos][col_pos].value)
+        && (!field[row_pos][col_pos].update_lock) )
+    {
+      update_cell(field, row_pos-1, col_pos, m_state);
+      field[row_pos][col_pos] = clear_cell;
     }
   }
 }
 
 /* --- +++ --- */
 
-void push_cell_down(game_field field, int row_pos, int col_pos)
+void push_cell_down(game_field field, int row_pos, int col_pos, move_state* m_state)
 {
   while(field[row_pos+1][col_pos].value == 0)
   {
@@ -124,6 +152,16 @@ void push_cell_down(game_field field, int row_pos, int col_pos)
     } else {
       swap_cells(&field[row_pos+1][col_pos], &field[row_pos][col_pos]);
       row_pos++;
+      switch_move_occuring(m_state);
+    }
+  }
+  if ( row_pos != field_size )
+  {
+    if ( (field[row_pos+1][col_pos].value == field[row_pos][col_pos].value)
+        && (!field[row_pos][col_pos].update_lock) )
+    {
+      update_cell(field, row_pos+1, col_pos, m_state);
+      field[row_pos][col_pos] = clear_cell;
     }
   }
 }
@@ -177,7 +215,7 @@ void shift_field_right(WINDOW* win_field,
       {
         if (field[row_pos][col_pos-1].value != 0)
         {
-          push_cell_right(field, row_pos, col_pos-1);
+          push_cell_right(field, row_pos, col_pos-1, m_state);
         }
       } else {
         if((field[row_pos][col_pos].value == field[row_pos][col_pos-1].value) &&
@@ -210,7 +248,7 @@ void shift_field_up(WINDOW* win_field,
       {
         if (field[row_pos+1][col_pos].value != 0)
         {
-          push_cell_up(field, row_pos+1, col_pos);
+          push_cell_up(field, row_pos+1, col_pos, m_state);
         }
       } else {
         if((field[row_pos][col_pos].value == field[row_pos+1][col_pos].value) &&
@@ -243,7 +281,7 @@ void shift_field_down(WINDOW* win_field,
       {
         if (field[row_pos-1][col_pos].value != 0)
         {
-          push_cell_down(field, row_pos-1, col_pos);
+          push_cell_down(field, row_pos-1, col_pos, m_state);
         }
       } else {
         if((field[row_pos][col_pos].value == field[row_pos-1][col_pos].value) &&
@@ -295,7 +333,11 @@ void game_move(WINDOW* win_field,
       break;
     }
   }
-  if (m_state->move_occuring)
-  copy_field(field, field_backup);
+  reset_update_lock(field);
+  if (m_state->move_occuring) {
+    copy_field(field, field_backup);
+    add_new_cell(field);
+    draw_game_field(win_field, field);
+  }
 }
 

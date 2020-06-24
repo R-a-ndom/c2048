@@ -55,9 +55,10 @@ enum {
 
   col_about_standard,
   col_about_button,
-
+#ifdef DEBUG
   col_debug_text,
   col_debug_data,
+#endif
 };
 
 /* game elements sizes */
